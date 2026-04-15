@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>バレー部 保護者会FAQ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #f5f0eb;
+  --chat-bg: #ffffff;
+  --user-bubble: #4a90d9;
+  --user-text: #ffffff;
+  --bot-bubble: #ffffff;
+  --bot-text: #333333;
+  --accent: #e8734a;
+  --accent-light: #fff0eb;
+  --border: #e0d8d0;
+  --muted: #8a8078;
+  --shadow: rgba(120, 100, 80, 0.08);
+  --header-bg: #4a90d9;
+  --header-text: #ffffff;
+  --category-bg: #f0e8e0;
+  --category-text: #6b5d4f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--bot-text);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.header-info h1 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.header-info p {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 1px;
+}
+
+/* ── Chat Area ── */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Bubbles ── */
+.message {
+  display: flex;
+  gap: 8px;
+  max-width: 88%;
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message.bot {
+  align-self: flex-start;
+}
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.message.user .bubble {
+  background: var(--user-bubble);
+  color: var(--user-text);
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot .bubble {
+  background: var(--bot-bubble);
+  color: var(--bot-text);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.bot-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Result cards inside bot bubble ── */
+.result-card {
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 8px;
+}
+
+.result-card:first-of-type {
+  margin-top: 4px;
+}
+
+.result-category {
+  display: inline-block;
+  background: var(--category-bg);
+  color: var(--category-text);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+.result-q {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #4a3f35;
+}
+
+.result-a {
+  font-size: 13px;
+  color: #5a5046;
+  line-height: 1.6;
+}
+
+.no-result {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── Score bar ── */
+.score-bar {
+  flex: 1;
+  height: 4px;
+  background: #e8e0d8;
+  border-radius: 2px;
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.score-badge {
+  white-space: nowrap;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ── Category chips ── */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chip {
+  background: var(--category-bg);
+  color: var(--category-text);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.chip:hover, .chip:active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ── Refine section ── */
+.refine-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.refine-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.show-rest-chip {
+  background: var(--user-bubble) !important;
+  color: white !important;
+  border-color: var(--user-bubble) !important;
+  font-weight: 700 !important;
+}
+
+.show-rest-chip:hover, .show-rest-chip:active {
+  background: #3a7ac0 !important;
+  border-color: #3a7ac0 !important;
+}
+
+.remaining-results {
+  animation: fadeUp 0.3s ease;
+}
+
+/* ── Input Area ── */
+.input-area {
+  padding: 10px 12px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  background: var(--chat-bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.input-area textarea {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  max-height: 100px;
+  line-height: 1.4;
+  background: var(--bg);
+  transition: border-color 0.2s;
+  overflow-y: auto;
+  rows: 1;
+}
+
+.input-area textarea:focus {
+  border-color: var(--user-bubble);
+}
+
+.send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--user-bubble);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.send-btn:active {
+  transform: scale(0.92);
+  background: #3a7ac0;
+}
+
+.send-btn:disabled {
+  background: #c0c0c0;
+  cursor: default;
+}
+
+/* ── Scrollbar ── */
+.chat-area::-webkit-scrollbar { width: 4px; }
+.chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ── Welcome ── */
+.welcome-msg {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.welcome-msg h2 {
+  font-size: 18px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.welcome-msg p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── Typing indicator ── */
+.typing .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--muted);
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: blink 1.2s infinite;
+}
+.typing .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-icon">🏐</div>
+  <div class="header-info">
+    <h1>保護者会FAQ</h1>
+    <p>質問やキーワードを入力してね</p>
+  </div>
+</div>
+
+<!-- Chat -->
+<div class="chat-area" id="chatArea">
+  <div class="welcome-msg">
+    <h2>ようこそ！</h2>
+    <p>バレー部保護者会のFAQボットです。<br>知りたいことを入力するか、<br>下のカテゴリから選んでね。</p>
+  </div>
+  <div class="message bot" id="welcomeChips">
+    <div class="bot-avatar">📋</div>
+    <div class="bubble">
+      よく聞かれるカテゴリはこちら：
+      <div class="chips-container" id="categoryChips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Input -->
+<div class="input-area">
+  <textarea id="userInput" rows="1" placeholder="ここに質問を入力…" enterkeyhint="send"></textarea>
+  <button class="send-btn" id="sendBtn" onclick="handleSend()">➤</button>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  FAQ Data (inline)
+// ══════════════════════════════════════
+const FAQ_DATA = [
+  {c:"集金",q:"10/12の高速代の端数（1円×20家庭=20円）はどう処理するか？",a:"端数の20円は部費から出す。"},
+  {c:"集金",q:"高速代の集金は10/25（県大会1日目）締切でよいか？",a:"10/25締切でよい。"},
+  {c:"集金",q:"Aさんは午後から帰ったため帰りの送迎をしていないが、集金計算はどうするか？",a:"帰った理由が体調不良（不可抗力）なので、往復分として計算する。"},
+  {c:"集金",q:"欠席したB君とC君の家庭からも高速代を集金するのか？",a:"欠席者は除外し、参加した18名（家庭）で割って集金する。"},
+  {c:"集金",q:"18家庭で割ると1家庭2,890円になるが、いくら集金するか？",a:"2,900円を集金し、余った10円を部費に入れる。"},
+  {c:"配車",q:"11/1、11/2の一日練習での配車はあるか？",a:"学校など近場になる予定のため、配車はなし。"},
+  {c:"お弁当",q:"11/1、11/2のお昼ご飯はどうするか？",a:"各自持参とする。"},
+  {c:"お弁当",q:"県大会のお弁当代は部費から出すか、各自徴収か？",a:"部費から出したいが、JOCの寄付金も部費から出す予定なので2日間分出すのは厳しい。"},
+  {c:"集金",q:"JOC寄付金を各家庭からの集金にすれば、部費からお弁当代が出せるか？",a:"JOC寄付金を集金にして部費を浮かす案もある。"},
+  {c:"お弁当",q:"大会のお弁当が3日間になった場合、費用はどうするか？",a:"今後の活動費を考え、今回は3日間とも各自集金とする。"},
+  {c:"お弁当",q:"大会のお弁当内容に指定はあるか？",a:"麺とおにぎりの指定がある。"},
+  {c:"備品",q:"メガホンを拭く除菌シートが切れていて部室にも予備がない。誰が購入するか？",a:"塩分チャージを購入する役員が一緒に購入する。"},
+  {c:"お弁当",q:"11/1、11/2のY先生のお弁当は誰が用意するか？",a:"役員が買いに行く。"},
+  {c:"備品",q:"11/1、11/2のキーパー、氷、水、先生の水筒は誰が用意するか？",a:"朝一で役員Aが行き、昼からは役員Bが交代で行く。"},
+  {c:"飲食",q:"11/2のお茶とお菓子は他校と折半するか？",a:"前日に折半するかどうかが決まるため、分かり次第連絡する。"},
+  {c:"備品",q:"他校に持っていくクーラーボックスや紙コップなどはどう運ぶか？",a:"役員が自分の車で運ぶ。"},
+  {c:"飲食",q:"11/2の飲み物は他校と折半になったか？",a:"折半になった。自校が飲み物を用意する。"},
+  {c:"飲食",q:"用意する飲み物は温かいものがいいか？",a:"温かいものを用意する。各自ポットの準備をお願いする。"},
+  {c:"親睦会",q:"他校との合同飲み会（11/23）の計画は進めてよいか？",a:"Y先生と話して改めて連絡する。"},
+  {c:"遠征",q:"12/20,21の大分1泊遠征の打診があったが、OKしてよいか？",a:"OKで話を進める。（※後日キャンセル）"},
+  {c:"親睦会",q:"飲み会の場所はA店でよいか？他校の役員はOKとのこと。",a:"A店でOK。空いているか確認し、予約を進める。"},
+  {c:"親睦会",q:"合同親睦会でのY先生の飲み代はどうするか？",a:"他の先生に合わせて飲み放題を付けず、ビール（持ち込み）を用意する。"},
+  {c:"親睦会",q:"親睦会の出欠確認はいつまでにすればよいか？",a:"11/12（水）締切でお願いする。"},
+  {c:"親睦会",q:"親睦会の名称は何とするか？",a:"先生が「合同親睦会」と呼んでいたので、そちらに合わせる。"},
+  {c:"親睦会",q:"親睦会の部員の参加費はどうするか？",a:"いつも負担をかけているため、今回も部費から出す。"},
+  {c:"親睦会",q:"Y先生用のビールは何を用意するか？",a:"プレミアムモルツ 薫るエール（350ml×6本）を1セット用意する。"},
+  {c:"活動費",q:"バレー祭の費用はどこから出るか？",a:"学校から上限8,000円まで出してもらえる。役員が学校へ取りに行く。"},
+  {c:"集金",q:"JA杯の参加料の支払いはいつまでか？",a:"14日(金)までに指定口座へ振り込む。"},
+  {c:"集金",q:"合同チームの場合、JA杯の参加料はどうなるか？",a:"自校の負担分は半額の3,500円。支払い方法については他校会長に確認する。"},
+  {c:"飲食",q:"遠征時の外食時、Y先生の食事代は部費から出した方がよいか？",a:"過去にも出していないケースがあるため、出さなくて大丈夫。"},
+  {c:"飲食",q:"外部講師用の飲み物は何を用意するか？",a:"冷たいお茶とコーヒー（ブラック）のペットボトルを1本ずつ用意する。"},
+  {c:"飲食",q:"合同練習でのおもてなし用飲み物・お菓子は他校と折半するか？",a:"今回は折半なしで自校で用意する。"},
+  {c:"配車",q:"自校近くの他校会場への交通手段はどうするか？",a:"いつも通り自転車とする。"},
+  {c:"活動費",q:"学校からの県大会補助金と活動費は誰が受け取るか？",a:"役員が受け取りに行き、金曜日の参観日で他の役員にお渡しする。"},
+  {c:"お弁当",q:"合同練習のお弁当代は、全学校分を部費から立て替えて支払えないか？",a:"他校はまとめた金額で持ってきてくれると思われるため、別で準備する形で対応する。"},
+  {c:"お弁当",q:"外部講師の方のお弁当代はどうするか？",a:"Y先生からの依頼により、講師の分のお弁当代もこちらで出す。"},
+  {c:"寄付",q:"上位大会出場の寄付金（JOC、春高）はいくら、どこから出すか？",a:"各1万円ずつ部費から出す。"},
+  {c:"寄付",q:"寄付金はいつお渡しするか？",a:"12月中にお渡しする。"},
+  {c:"寄付",q:"都工への寄付金はいつ持っていくか？",a:"3年生がいない日を避け、12/4以降に持って行く。お金の準備ができたら先生に託す。"},
+  {c:"活動費",q:"体育館使用料が不明な場合、支払いはどうするか？",a:"金額が分かって準備が間に合えば先生に渡し、間に合わなければ先生が立て替えて後日役員から渡す。"},
+  {c:"活動費",q:"11/22の体育館使用料はいくらか？",a:"3,740円。練習の時に先生に持っていく。"},
+  {c:"活動費",q:"欠席する部員の栄養会費はどうするか？",a:"キャンセル扱いとする。"},
+  {c:"配車",q:"遠征でバスの仮予約が必要な場合はどうするか？",a:"役員等からバス会社へ連絡してもらう。"},
+  {c:"配車",q:"マイクロバスの運転は誰にお願いするか？",a:"大型免許を持っている保護者（役員の旦那さん等）にお願いする。"},
+  {c:"遠征",q:"遠征の宿泊先の手配はどう進めるか？",a:"役員がホテルに電話して空き状況や料金、バスの駐車可否を確認する。"},
+  {c:"遠征",q:"正月など繁忙期のホテル探しの注意点は？",a:"料金が高騰し、バス駐車代もかかる場合が多いので複数見積もる。"},
+  {c:"遠征",q:"大分の宿泊先はどう決めたか？",a:"昨年も泊まった実績があり、安くてバス駐車も可能なホテルにした。"},
+  {c:"遠征",q:"ホテルの部屋割りはどうするか？",a:"部員の人数と同行保護者、指導者の人数からツインとシングルを組み合わせて予約する。"},
+  {c:"事務",q:"保険証の確認はどうするか？",a:"厚労省の案内に基づき、マイナ保険証での提出を保護者に呼びかける。"},
+  {c:"遠征",q:"ホテルの部屋割り（部員用）はどうやって決めるか？",a:"先生が決めるため、予約段階では仮で適当な名前を入れて提出する。"},
+  {c:"親睦会",q:"大人数の合同親睦会の会場探しのポイントは？",a:"人数が入るか、持ち込みが可能かを確認し仮予約する。"},
+  {c:"集金",q:"菅公カップの参加費（合同チーム分3,500円）はいつ渡すか？",a:"当日の朝に現金でお渡しする。"},
+  {c:"備品",q:"ペナント料の請求書はどう処理するか？",a:"先生から預かり、役員が支払いを行う。"},
+  {c:"お弁当",q:"大会時のお昼ご飯は何時までに食べるか？",a:"先生からの指示（例：13時35分まで）に合わせて手配・呼びかけを行う。"},
+  {c:"集金",q:"合宿の参加費はいくらか？",a:"参加日数によって異なる（例：1日間1,500円、2日間3,000円など）。"},
+  {c:"集金",q:"合宿参加費はいつ集金するか？",a:"合宿参加1日目に集金する。急な不参加の返金は不可。"},
+  {c:"備品",q:"合宿の服装はどうするか？",a:"可能な限りユニフォームで参加。洗濯が間に合わない場合は練習着でも可。"},
+  {c:"集金",q:"遠征の集金金額の計算はどうするか？",a:"部員の基本料金（バス代等）を出し、保護者が同行する場合はそれに宿泊費を足す。"},
+  {c:"集金",q:"遠征費の端数や差額はどう処理するか？",a:"部員の分の端数差額は部費から出してOK。保護者の宿泊費は部費からは出さない。"},
+  {c:"集金",q:"大分遠征の集金金額と集金日は？",a:"部員10,000円（＋同行保護者宿泊費）。集金日は指定の練習日とする。"},
+  {c:"備品",q:"初練習などへの差し入れはどうするか？",a:"慣例に従い、アクエリアス等を箱で購入して渡す。"},
+  {c:"備品",q:"他校へのお土産はどうするか？",a:"以前別の学校にお渡ししたものと同等のものを用意する。"},
+  {c:"備品",q:"他の部活から横断幕を張りたいと言われたらどうするか？",a:"バレー部の横断幕を外し、部室で保管し、先生に報告する。"},
+  {c:"遠征",q:"遠征先での空き時間の予定（初詣など）はどう決めるか？",a:"保護者から案を出し、先生の了承を得て決定する。"},
+  {c:"配車",q:"マイクロバスのETCカードはどうするか？",a:"役員個人のETCカードを持っていき、後日現金で精算する。"},
+  {c:"遠征",q:"遠征時のコインランドリーの洗剤はどうするか？",a:"役員が自宅の洗剤を持っていく（部室にも残っている可能性あり）。"},
+  {c:"お弁当",q:"合同練習のお昼ご飯の指定はあるか？",a:"特に指定がなければ普通のお弁当でよい。"},
+  {c:"親睦会",q:"親睦会の大人の飲み物はどうするか？（コースか持ち込みか）",a:"多数決の結果、持ち込みとする。"},
+  {c:"親睦会",q:"親睦会の部員の食事代はどこから出すか？",a:"部費から出す予定。"},
+  {c:"活動費",q:"大会の参加費の領収書はどうするか？",a:"学校に補助申請してもらうため、先生から預かり処理する。"},
+  {c:"活動費",q:"大会の参加費が不足して役員が立て替えた分はどうするか？",a:"立て替えた役員に後日渡して精算する。"},
+  {c:"遠征",q:"遠方（長崎など）への交通手段はどうするか？",a:"昨年同様のフェリー等を利用し、早朝出発でスケジュールを組む。"},
+  {c:"事務",q:"遠征に対する保護者の希望アンケートはいつまでに取るか？",a:"期日を設定し（例：〇日までに）、LINE等で回答を求める。"},
+  {c:"活動費",q:"参加費の振込手数料は学校から出してもらえるか？",a:"手数料まで記載された控えがあれば提出して申請できる。"},
+  {c:"慶弔",q:"先生のご家族の葬儀のお香典はどうするか？",a:"相場等を考慮し、部費から5,000円を包み、代表者が先生にお預けする。"},
+  {c:"集金",q:"高速代とお弁当代の集金はいつ行うか？",a:"直近の練習日や試合日など、保護者が集まる日にまとめて行う。"},
+  {c:"親睦会",q:"部内で感染症が広がっている場合、他校との親睦会はどうするか？",a:"感染リスクを考慮し、役員間で協議のうえ先生に中止や延期を相談する。"},
+  {c:"親睦会",q:"親睦会の席順で気をつけることは？",a:"感染防止のため、学校ごとに席を分けるよう先生から指示があれば従う。"},
+  {c:"親睦会",q:"親睦会の会場装飾は行うか？",a:"撤収が大変なため行わないという判断もある。"},
+  {c:"親睦会",q:"親睦会や弁当がキャンセルになった場合の費用負担はどうなるか？",a:"期日を過ぎた弁当は買い取り（役員で協力）。お店のキャンセル規定も確認しておく。"},
+  {c:"活動費",q:"合同チームの場合の大会参加費はどうなるか？",a:"参加費を自校と合同チームで折半する（例：5000円なら2500円ずつ）。"},
+  {c:"イベント",q:"先生への退任セレモニーはいつ行うか？",a:"最終出勤日など、先生の都合が良い日に行う。"},
+  {c:"活動費",q:"遠征のフェリー代が片道分しか計算されていなかったがどうするか？",a:"不足分は部費から出し、追加徴収は避ける。"},
+  {c:"備品",q:"大会時のテーピングなどの購入はどうするか？",a:"指用（白・伸びない）と伸縮テープ（色問わず複数）を常備用として購入しておく。"},
+  {c:"イベント",q:"お祝いの品（赤飯など）が当日手に入らない場合どうするか？",a:"複数の役員で手分けしてコンビニ等を探し、見つけた人が購入する。"},
+  {c:"備品",q:"先生から依頼された細かい購入品（塩分チャージ、ふりかけ等）の手配はどうするか？",a:"各自のストックを確認し不足分を購入。ボールなどはネット注文する。"},
+  {c:"備品",q:"横断幕のハトメが取れたり色が薄くなっているのはどう対応するか？",a:"ハトメ修理は先生が対応。色が薄いのはそのままでOK。"},
+  {c:"集金",q:"遠征をキャンセルした部員の返金はどうなるか？",a:"宿泊費や弁当代のキャンセル規定・手数料を差し引いた額を口座等に返金する。"},
+  {c:"集金",q:"高額なバスレンタル料（例：10万円超）はどう集金するか？",a:"総額を部員数で割り、1人あたりの金額を算出して集金する。"},
+  {c:"お弁当",q:"参観日など保護者が忙しい日の昼食はどうするか？",a:"お弁当の手配はせず、各自で準備する形にする。"},
+  {c:"イベント",q:"先生へのホワイトデー等のプレゼント集金はどうするか？",a:"卒部式や誕生日と重なり負担になる場合は、一律集金はせず各自のお返しとする。"},
+  {c:"イベント",q:"先生のセレモニーで気をつけることは？",a:"車までアーチを作って見送るなど工夫するが、駐車場で騒がないように注意する。"},
+  {c:"備品",q:"大量に消費するお米（補食用）はどう集めるか？",a:"1回の消費量が多い場合、各家庭から〇合ずつ（例：10合）集め、なくなったらその都度集める。"},
+  {c:"備品",q:"集めたお米の管理はどうするか？",a:"部室の米袋に入れ、誰が持ってきたかの確認は生徒（係）が行う。"},
+  {c:"集金",q:"複数回の遠征のバス諸費用の集金はどう計算するか？",a:"欠席者等を除いた人数でつじつまが合うように計算し、一覧表を作成して集金する。"},
+  {c:"配車",q:"大会時の駐車場の割り当て・誘導はどうするか？",a:"関係者と他校で駐車場所を分け、周知用の案内地図を作成して連絡する。"},
+  {c:"事務",q:"新入部員に必要な手続きや費用説明は？",a:"チームTシャツの準備、部費、配車や遠征費用の概要を説明する。"},
+  {c:"備品",q:"チームTシャツはプレゼントか各自購入か？",a:"年によって異なるため確認する。今回はプレゼントなしのため各自購入とし、サイズを確認して注文する。"},
+  {c:"情報共有",q:"部活の予定などをまとめたポータルサイトを作ったが、どう運用するか？",a:"予定表、応援掛け声、配車、弁当情報を掲載。ただし不具合や混乱があれば閉鎖し、プリント運用に戻す。"},
+  {c:"集金",q:"中体連に向けた「お守り」の作成費はいつ、どう集めるか？",a:"事前に金額（2年350円、1年220円など）を提示し、期日までに袋に記名して2年生役員に渡す。"},
+  {c:"役員",q:"次年度の1年生保護者の役員決めはいつ行うか？",a:"大会終了後、中学校の駐車場など保護者が集まるタイミングで話し合って決める。"},
+  {c:"お弁当",q:"中体連のお弁当代の負担割合は？",a:"下級生（1,2年）で3年生の分も含めて割り勘にする（例：自分の弁当代＋3年生分の割り勘額）。"},
+  {c:"集金",q:"中体連のお弁当代の集金タイミングは？",a:"朝練前の集合時間などに、記名した封筒に入れて弁当係が回収する。"},
+  {c:"集金",q:"1-2年生のお弁当代の事前預かり金方式とは？",a:"当日集金の手間を省くため、先に多め（例:5,000円）に集め、使用額を差し引いて期末に精算・返金する方式。"},
+  {c:"役員",q:"1年生保護者の役員（係）の内訳は？",a:"副会長、会計、弁当係、体育館係、配車係の計5名。"},
+  {c:"役員",q:"お弁当係の配置で工夫することはあるか？",a:"当日の受け渡しや精算をスムーズにするため、各配車グループに1名以上はお弁当係が入るよう調整する。"},
+  {c:"イベント",q:"部活の物販・寄附説明会では他に何があるか？",a:"先生から保護者向けの大事な話がある場合があるため、可能な限り参加を呼びかける。"},
+  {c:"組織",q:"他校との合同チームを組むことはあるか？",a:"人数等の都合で組む場合がある。先生から生徒にメリット・デメリットを説明し希望を取って決定する。"},
+  {c:"情報共有",q:"予定表（Googleカレンダー等）を停止した後の予定確認方法は？",a:"先生から配布されるプリントを参照するよう徹底する。"},
+  {c:"備品",q:"大会の写真やキーホルダーの回覧はどうするか？",a:"注文期限が短い場合、役員が持ち歩き、練習や試合会場で直接声をかけて見てもらう。"},
+  {c:"集金",q:"部費の集金はどこで誰が行うか？",a:"指定した日の練習時間（例：18時頃）に地区体育館等に会計担当が行き、回収する。"},
+  {c:"イベント",q:"全国大会のパンフレットはどう配布するか？",a:"会場に来た保護者には直接、来られない家庭には学校へ迎えに来た際か子ども便で渡す。"},
+  {c:"組織",q:"役員（会長など）が体調不良で続けられなくなった場合は？",a:"配偶者が代わりを務めるなど、家庭内や他の役員と連携して柔軟に引き継ぐ。"},
+  {c:"備品",q:"全国大会記念Tシャツなどの個人的な注文の集金は？",a:"期日を決め、お釣りのないよう封筒に入れ、保護者から会計または先生へ直接渡す。"},
+  {c:"情報共有",q:"台風接近時の部活動の有無はどう確認するか？",a:"当日の朝に先生から連絡が来るため、LINEを注視し、親から子どもへ確実に伝える。"},
+  {c:"備品",q:"千羽鶴の作成はどう分担するか？",a:"一家庭50羽などと分担し、折り紙を配布して各自で折り、期日までに集める。"},
+  {c:"イベント",q:"大会終了後の保護者会（顔合わせ）は参加必須か？",a:"合同チームの他校の先生や保護者との顔合わせを兼ねているため、できる限り参加する。"},
+  {c:"備品",q:"千羽鶴の折り方に指定はあるか？",a:"参考URLを共有し、首の部分は折らないなどの指定がある場合は徹底する。"},
+  {c:"健康",q:"残暑の練習試合で保護者が気をつけることは？",a:"着替えを複数枚持参させることと、水筒以外の水分（スポドリ等）を持たせるよう呼びかける。"},
+  {c:"集金",q:"遠征時の高速代はどう集金するか？",a:"かかった費用を家庭数で割り、端数を切り捨てた金額（例:1家庭800円）を集める。端数の残額は部費に入れる。"},
+  {c:"お弁当",q:"急な欠席（インフルエンザ等）でお弁当をキャンセルしたい場合は？",a:"前日や当日の朝など、早めに連絡する。キャンセルが間に合わない場合は役員や他の保護者が買い取る。"},
+  {c:"集金",q:"2日分まとめて集金する場合のタイミングは？",a:"初日の朝の集合時などに、2日分をまとめて記名した封筒で集金する。"},
+  {c:"お弁当",q:"お正月などの練習会でのお弁当メニューの例は？",a:"グリルチキン弁当やチキン南蛮弁当（例:750円）など、子どもが喜ぶ内容で手配する。"},
+  {c:"集金",q:"お弁当代の支払いに「お釣り」は出せるか？",a:"極力お釣りのないように準備をお願いし、どうしても出る場合は後日返金等の対応となる。"},
+  {c:"お弁当",q:"遠征先（大分等）での昼食が「汁物（豚汁等）の提供」のみの場合、おにぎりはどうするか？",a:"子どもたちの分を部費でまとめて購入（買い出し）し、1人3個ずつ配るなどの対応をする。"},
+  {c:"お弁当",q:"遠征先での「おにぎり」の具材は何が良いか？",a:"腐りにくく無難な「鮭・昆布」などを中心に選ぶ。"},
+  {c:"集金",q:"遠征先での弁当代（唐揚げ弁当、とり天弁当等）の集計はどうするか？",a:"事前にメニューの希望（例:A弁当かB弁当か）を取り、集計表を作成して代金を回収する。"},
+  {c:"集金",q:"お弁当代の残高を確認する方法はあるか？",a:"役員が作成・共有しているスプレッドシートや管理表のリンクから各自で確認してもらう。"},
+  {c:"集金",q:"預かり金が不足（マイナス）になった場合はどうするか？",a:"次回の集金時に不足分を上乗せして徴収するか、別途徴収をお願いする。"},
+  {c:"集金",q:"お弁当代の返金（退部や年度末）はいつ行われるか？",a:"一般会計の締めと同じタイミング（例:7月末や年度末）で、残高を計算して返金する。"},
+  {c:"集金",q:"12月分の高速代とお弁当代を合算して集金してもよいか？",a:"分かりやすくするために、合算した金額を提示し、期日までに集金する。"},
+  {c:"集金",q:"遠征に行かない家庭も、共通の集金（お弁当代等）は必要か？",a:"参加者のみの徴収とするため、不参加の連絡があれば対象外とする。"},
+  {c:"お弁当",q:"練習試合（西都等）での配達可能なお弁当屋さんの例は？",a:"生姜焼き弁当やチキン南蛮弁当（例:700円〜750円）を提供し、現地まで配達してくれるお店を選ぶ。"},
+  {c:"お弁当",q:"試合が午前中で終わる場合、お弁当はどうするか？",a:"お店に連絡してキャンセル可能ならキャンセル。無理なら予定通り受け取って各自持ち帰る。"},
+  {c:"集金",q:"練習試合のお弁当代を、会計〆前にまとめて徴収してよいか？",a:"会計の都合に合わせ、指定された期間（例:木曜〜日曜）に集中的に集金を行う。"},
+  {c:"お弁当",q:"お弁当のメニューを「生姜焼き」か「チキンカツ」の2択にした理由は？",a:"揚げ物続きを避けるためや、子どもたちの好みを考慮して選択肢を設ける。"},
+  {c:"お弁当",q:"お弁当のサイズ（Lサイズ700円、Mサイズ600円等）はどう選ぶか？",a:"中学生男子なのでボリューム重視でLサイズを基本とするが、少食な子や保護者向けにサイズ選択を設けることもある。"},
+  {c:"集金",q:"お弁当代が「部費」から出るか「個人負担」かはどう決まるか？",a:"大会の種類や部費の残額状況により役員・会計で協議して決定し、事前に周知する。"},
+  {c:"お弁当",q:"熊本などの日帰り遠征での昼食はどうするか？",a:"送迎車で移動する場合、現地のお弁当屋さんに注文し、保護者が代表して受け取りに行く。"},
+  {c:"お弁当",q:"遠征時の運転手（マイクロバス等）のお弁当はどうするか？",a:"運転手さんの分も忘れずに手配し、その費用は部費（または特別会計）から出す。"},
+  {c:"お弁当",q:"保護者も一緒にお弁当を注文することは可能か？",a:"お弁当係の負担にならない範囲で、ノート等で希望者を募って一緒に注文・集金する。"},
+  {c:"お弁当",q:"大会（新春大会等）のお弁当を「マハロ」や「モグモグ」などの人気店にするメリットは？",a:"子どもたちのモチベーションアップや、過去のトラブル（キャンセル対応等）の際のリベンジとして選ぶ。"},
+  {c:"お弁当",q:"お店が「土日定休日」だが注文したい場合は？",a:"役員が直接交渉し、大量注文であれば特例で引き受けてもらえる場合がある。"},
+  {c:"お弁当",q:"試合会場（姫城中等）の近くに配達してくれるお店がない場合は？",a:"近隣のうどん店などに予約し、数人ずつに分かれてイートイン（店舗で食事）する形式も検討する。"},
+  {c:"お弁当",q:"うどん店でイートインする場合の注意点は？",a:"混雑時間を避け、バラバラの席になっても良いことを承知の上で予約・利用する。"},
+  {c:"お弁当",q:"合同チームを組んでいる他校のお弁当手配はどうするか？",a:"自校の役員がまとめて注文・集金・受け取りを担当し、他校の分は朝のうちに現金で預かる。"},
+  {c:"集金",q:"お弁当の「容器代」や「消費税」で端数が出る場合の精算方法は？",a:"レジを通さないと正確な額が分からない場合は、一旦役員が立て替えて支払い、後日正確な額を精算する。"},
+  {c:"お弁当",q:"お弁当のメニュー（チキンステーキ丼等）で、食材の入荷困難により内容が変わる場合は？",a:"事前にお店から連絡があれば、LINEで周知し、希望者にはメニュー変更を受け付ける。"},
+  {c:"お弁当",q:"試合当日の「先生の分」のお弁当はどうするか？",a:"先生が外に食べに出る場合は不要。もし注文済みで余った場合は役員や保護者が買い取る。"},
+  {c:"お弁当",q:"大量のお弁当（20〜30個）が会場に届いた時の運搬は？",a:"「到着しました。2名ほどお手伝いお願いします」とLINEで呼びかけ、保護者で協力して運ぶ。"},
+  {c:"お弁当",q:"新入部員が入った場合のお弁当対応は？",a:"注文締め切りに間に合えば追加し、間に合わなければ各自持参とする。"},
+  {c:"お弁当",q:"副顧問の先生のお弁当はどうするか？",a:"「来られる時に来る」スタイルの場合は、基本的には注文せず、必要な時だけ連絡をもらう。"},
+  {c:"お弁当",q:"お弁当に「メッセージカード」を添える企画がある場合の回収は？",a:"期限を決め、練習試合や大会の際に担当者がまとめて回収する。"},
+  {c:"集金",q:"インフルエンザ流行で急な欠席者が続出した場合のお弁当代は？",a:"キャンセル不可の時期であれば、余った分を他の保護者が夕食用等に買い取り、代金を補填する。"},
+  {c:"お弁当",q:"お弁当のメニュー決めで「丼もの（ロコモコ丼等）」を選ぶ際の注意点は？",a:"バターライス等の好みが分かれるものより、白ご飯の無難なメニューの方が喜ばれる傾向がある。"},
+  {c:"お弁当",q:"お弁当のゴミ回収（無料回収等）があるお店を選ぶメリットは？",a:"会場（体育館）にゴミを残さず、役員の持ち帰りの手間も省けるため非常に助かる。"},
+  {c:"集金",q:"1円単位の集金を避けるための工夫は？",a:"合計金額を10円単位に切り上げ、差額を部費に入れるルールを事前に保護者の了承を得ておく。"},
+  {c:"集金",q:"お弁当代の会計を「生徒」と「役員の先生」で分ける必要はあるか？",a:"先生方が自分で支払う場合は、合計額を伝え、先生方の分だけ別会計（別領収書）にする。"},
+  {c:"お弁当",q:"お弁当選びで「インスタ映え」や「口コミ」を参考にするのはアリか？",a:"子どもたちの食欲をそそるために有効。写真付きで案内すると注文がスムーズになる。"},
+  {c:"集金",q:"お弁当代を「1ヶ月分まとめて後払い」にするのは可能か？",a:"役員の立て替え負担が大きくなるため、基本的には前払い、または都度徴収が推奨される。"},
+  {c:"お弁当",q:"「麺＋おにぎり」のセットが2日続く場合の対策は？",a:"先生の指示であれば従うが、お店を変えたり、おにぎりの具材を変えたりして変化をつける。"},
+  {c:"集金",q:"お弁当代の返金（退部等）をスムーズに行うには？",a:"毎月の残高を正確に記録し、保護者へ定期的に（またはサイト等で）残高を開示しておく。"},
+  {c:"お弁当",q:"お弁当の受け取りに行く役員の負担を減らすには？",a:"配達無料のお店を優先して探すか、配車当番と連携して移動のついでに受け取れるよう調整する。"},
+  {c:"お弁当",q:"試合の進行（勝ち残り）によって弁当の要不要が変わる場合の予約術は？",a:"お店と「〇時までに連絡すればキャンセル（または追加）可能か」を事前に握っておく。"},
+  {c:"集金",q:"大会役員用のお弁当代を、先生がまとめて支払う場合のフローは？",a:"総額を先生に伝え、当日に現金で一括して受け取り、お店へ支払う。"},
+  {c:"お弁当",q:"アレルギー対応が必要な部員がいるかどうかの確認は？",a:"年度初めに調査するほか、お弁当案内のLINEに「アレルギーがある方は連絡を」と毎回一言添える。"},
+  {c:"お弁当",q:"お弁当のメニューが「揚げ物」ばかりに偏らないようにするには？",a:"「生姜焼き」「焼き魚」「丼もの」など、揚げ物以外の選択肢があるお店をローテーションに加える。"},
+  {c:"集金",q:"お弁当代の徴収袋（封筒）は決まったものがあるか？",a:"100均の封筒等で良いが、必ず「名前・金額・中身（〇/〇弁当代）」を明記するよう依頼する。"},
+  {c:"お弁当",q:"練習試合先が「山奥」などで配達不可の場合の対応は？",a:"一番近いコンビニやスーパー、弁当店を事前に調べ、当番の保護者が買い出しに行く。"},
+  {c:"お弁当",q:"「先生へのおもてなし（お茶菓子等）」にお弁当代の端数を使ってもよいか？",a:"保護者の総意（または役員決定）があれば、端数の部費から備品として購入する。"},
+  {c:"お弁当",q:"卒部式の日の「お昼ご飯（部員分）」の手配はどうするか？",a:"午前中の親子バレー終了後に食べられるよう、近くのパン屋などで軽食（セット）を予約・配達してもらう。"},
+  {c:"集金",q:"高額な集金（合宿・遠征費）とお弁当代を同時に集める際の工夫は？",a:"封筒を分けるか、明細をはっきりさせて混乱を防ぐ。"},
+  {c:"お弁当",q:"お弁当の「箸」や「お手拭き」の有無を事前に確認すべきか？",a:"基本的には付いているが、付かない場合は部費で割り箸を常備しておく必要がある。"},
+  {c:"手配",q:"急な試合会場の変更に伴うお弁当の配送先変更は可能か？",a:"早めに（前日等）お店に連絡すれば、近隣の体育館であれば柔軟に対応してくれることが多い。"},
+  {c:"集金",q:"欠席者の返金対応で「振込」は可能か？",a:"振込手数料がかかるため、原則として次回の集金時に相殺するか、直接手渡しで行う。"},
+  {c:"お弁当",q:"お弁当のメニューに「生もの」を避けるべき理由は？",a:"夏場はもちろん、冬場でも食中毒のリスクを最小限にするため、加熱調理されたものを選ぶ。"},
+  {c:"お弁当",q:"お弁当の個数を確定させる際の「先生」の数え方は？",a:"顧問、副顧問、場合によっては外部講師やコーチの人数を事前に先生に確認する。"},
+  {c:"集金",q:"お弁当代の計算式をLINEで共有するメリットは？",a:"透明性が高まり、保護者からの「なぜこの金額か」という疑問を防ぐことができる。"},
+  {c:"手配",q:"お弁当屋さんが「20個以上でないと配達しない」と言った場合は？",a:"他校の分を合わせるか、保護者の分も募って最低注文個数をクリアするように工夫する。"},
+  {c:"お弁当",q:"「自分でお弁当を持参したい」という家庭があった場合の対応は？",a:"基本はチーム統一だが、アレルギーや家庭の事情がある場合は個別持参を認め、集金対象から外す。"},
+  {c:"お弁当",q:"大会当日の朝、お弁当の注文内容を最終確認するには？",a:"お弁当係が注文リストを持参し、届いたお弁当の数と種類をその場で検品する。"},
+  {c:"手配",q:"お弁当の「特注（ボリュームアップ等）」は可能か？",a:"お店によっては「＋100円でおかず増量」などができるため、中学生男子向けに相談してみる価値はある。"},
+  {c:"集金",q:"お弁当代の管理を「現金」で行う際のリスク管理は？",a:"大金を持ち歩かないよう、集金後は速やかに支払いを行うか、会計担当へ預ける。"},
+  {c:"配車調整",q:"配車当番の出欠確認はどうやって行うか？",a:"LINEの「ノート」機能を使って、期日（例：〇月〇日まで）を指定し各家庭に記入してもらう。"},
+  {c:"配車調整",q:"ノートの記入期限を過ぎても入力していない家庭がある場合は？",a:"グループLINEで全体に向けて「今日までです、入力お願いします」と再度アナウンスして促す。"},
+  {c:"配車調整",q:"作成された配車表に名前がなかったり、間違っていたりした場合はどうするか？",a:"配車係がLINEで配車表を共有した際に、各自で確認し、間違いがあればすぐにLINEで申告する。"},
+  {c:"トラブル",q:"急な仕事や体調不良で配車当番に行けなくなった場合はどうするか？",a:"グループLINEで「仕事で行けなくなったのでどなたか交代お願いします」と早急にSOSを出し、代わってくれる人を募る。"},
+  {c:"トラブル",q:"他の保護者と配車当番を交代してもらった後の連絡はどうするか？",a:"「〇〇さんと交代してもらいました」と配車係にLINEで報告し、配車表を変更してもらう。"},
+  {c:"配車調整",q:"「自分の車に自分の子供が乗っていない配分になっている」のはなぜか？",a:"体格（車の定員と荷物の兼ね合い）や、各車の乗車人数のバランスを考慮して配車係がパズル状に組んでいるため。"},
+  {c:"配車調整",q:"配車表の割り振りについて疑問や不満がある場合はどうするか？",a:"配車係に直接連絡するかLINEで質問し、理由を説明してもらう（荷物の関係で仕方ない場合も多い）。"},
+  {c:"駐車場",q:"他校を招く練習試合の際、駐車場の誘導はどうするか？",a:"他校の車を優先的に指定駐車場（技術棟前や体育館前など）へ案内するため、自校の保護者が誘導係として立つ。"},
+  {c:"駐車場",q:"指定の駐車場が満車になってしまった場合はどうするか？",a:"予備のスペース（中庭など）に駐車可能か事前に確認しておき、そちらへ案内・誘導する。"},
+  {c:"駐車場",q:"他校向けの駐車場案内図（地図）はどう準備するか？",a:"配車係や役員がわかりやすい地図を作成し、事前に他校へ共有してもらうよう先生や会長にお願いする。"},
+  {c:"駐車場",q:"自校の保護者の駐車スペースはどこにするか？",a:"他校に校内の良い場所を譲るため、自校の保護者は少し離れた場所（民間駐車場など）に停めるようルール化する。"},
+  {c:"配車調整",q:"配車当番ではないが、自分の車で試合会場に行きたい場合は？",a:"駐車場の枠に制限がある場合が多いので、勝手に行かず必ず配車係に相談し、乗り合わせに協力する。"},
+  {c:"配車調整",q:"子供が部活を休むことになった場合の配車係への連絡は？",a:"配車の人数や割り振りが変わるため、先生への欠席連絡とは別に、必ず配車グループLINEにも一報を入れる。"},
+  {c:"配車調整",q:"新入部員（新3年生の途中入部など）が入った場合の配車の対応は？",a:"先生から入部届の連絡があり次第、配車のローテーションに組み込む準備（ノートへの追加等）を行う。"},
+  {c:"遠征",q:"遠方への遠征で「道具車（ボール、クーラーボックス等）」が必要な場合は？",a:"配車アンケートの際に「荷物を多く積める車」や「道具車可能な人」を事前に募って割り振る。"},
+  {c:"遠征",q:"遠征時の高速道路のETCカードはどうするか？",a:"基本は配車担当の保護者のETCを使用し、後日かかった高速代を割り勘で集金して精算する。"},
+  {c:"トラブル",q:"配車担当の車がETCカードを忘れた・持っていない場合は？",a:"一般ゲートを通って現金等で支払い、領収書を必ずもらって後日精算する。"},
+  {c:"先生",q:"指導者（先生）の送迎はどう割り振るか？",a:"先生の希望（誰の車でもよいか、特定の役員の車か）を確認し、配車表に「先生乗車」として明記する。"},
+  {c:"先生",q:"外部講師が来る場合の送迎や道案内は？",a:"事前におおよその到着時間を把握し、学校の入り口等に案内係を立たせて誘導する。"},
+  {c:"配車調整",q:"集合時間や出発時間はどこで確認するか？",a:"配車表と一緒に「〇時集合、〇時出発」とアナウンスされるため、遅れないよう各家庭で徹底する。"},
+  {c:"トラブル",q:"集合時間に遅刻しそうな生徒・保護者がいる場合は？",a:"すぐに配車係と先生に連絡し、全体の出発を遅らせるか、現地に直接向かわせるかの判断を仰ぐ。"},
+  {c:"配車調整",q:"配車当番の車が出発前に確認すべきことは？",a:"割り当てられた生徒が全員乗っているか、忘れ物（ユニフォーム、水筒等）がないかを必ず声掛けして確認する。"},
+  {c:"遠征",q:"マイクロバスをレンタルする場合の運転手はどうするか？",a:"大型免許を持っている保護者（お父さん等）に事前に打診し、お願いする。"},
+  {c:"遠征",q:"マイクロバスの運転手をしてくれた保護者へのお礼は？",a:"部費や遠征費から、昼食代（お弁当）を出したり、別途お礼の品を用意したりする。"},
+  {c:"配車調整",q:"試合や練習試合が午前・午後の「半日のみ」で終わる場合の配車は？",a:"行きと帰りで配車担当を分ける（例：行きはAさん、帰りはBさん）などして負担を分散する。"},
+  {c:"配車調整",q:"兄弟がいて、下の子を連れて配車当番をする場合の注意点は？",a:"乗車定員ギリギリにならないよう事前に配車係に申告し、席数に余裕を持たせた割り振りにしてもらう。"},
+  {c:"トラブル",q:"配車当番の車の中で子供たちが騒いで運転に支障が出る場合は？",a:"安全第一なので、運転手から厳しく注意してよい。ひどい場合は役員から全体へマナー指導を行う。"},
+  {c:"マナー",q:"他人の車に乗せてもらう時の生徒のマナー指導（家庭向け）は？",a:"「よろしくお願いします」「ありがとうございました」の挨拶の徹底と、車内で飲食やお菓子のゴミを散らかさないよう指導する。"},
+  {c:"遠征",q:"遠征先で車内で昼食（お弁当など）を食べる場合のルールは？",a:"匂いのキツいものやこぼしやすいものは避け、食べた後のゴミは必ず各自で持ち帰るようルール化する。"},
+  {c:"配車調整",q:"車酔いしやすい生徒がいる場合の配車配慮は？",a:"事前に申告してもらい、助手席に座らせたり、こまめに換気や休憩を取れる配車スケジュールを組む。"},
+  {c:"遠征",q:"長距離移動（高速道路使用など）でのトイレ休憩はどうするか？",a:"あらかじめSAやPA等の休憩ポイントを決めておき、複数台で行く場合はそこではぐれないよう連携する。"},
+  {c:"配車調整",q:"急な悪天候（台風、大雪など）で配車が危険と判断される場合は？",a:"役員・配車係で協議のうえ先生に連絡し、出発の延期や部活の休止を含めて早急に判断・連絡する。"},
+  {c:"駐車場",q:"試合会場の駐車場が「各校〇台まで」と制限されている場合は？",a:"配車台数を制限内に収まるよう乗り合わせをギュウギュウに組むか、乗り切れない分は近隣のコインパーキング等を自己負担で利用する。"},
+  {c:"マナー",q:"試合会場近隣のコンビニやスーパーに駐車してもよいか？",a:"クレームになり大会出入り禁止になる恐れがあるため、絶対に無断駐車はしないよう保護者全員に徹底する。"},
+  {c:"配車調整",q:"練習試合の際、相手校が自校に到着する時間を把握するには？",a:"相手校の保護者代表（または先生）と連絡を取り合い、到着予定時間の15分前には駐車場誘導係を配置する。"},
+  {c:"備品",q:"配車担当がビデオ撮影（Band等）を兼任する場合の準備は？",a:"三脚やカメラ（iPad等）、モバイルバッテリーの充電を確実に行い、会場のコンセントは勝手に使わない。"},
+  {c:"備品",q:"配車担当が「氷」や「ジャグ（水筒）」の準備を兼任する場合の注意点は？",a:"前日から自宅で大量の氷を作り、指定されたクーラーボックスやジャグに詰めて忘れずに運搬する。"},
+  {c:"マナー",q:"配車担当の保護者の服装に決まりはあるか？",a:"チームのサポートとして動くため、動きやすい服装や、あればチームTシャツ（保護者用）を着用して統一感を出す。"},
+  {c:"配車調整",q:"配車表のローテーションで不公平が出ないようにするには？",a:"エクセル等で過去の配車回数を記録し、遠方・近場、土日・平日などの負担がなるべく平等になるよう配慮する。"},
+  {c:"トラブル",q:"配車担当の車が道に迷ったり、事故に遭ったりした場合は？",a:"まずは安全を確保し、速やかに配車グループLINEと会長（役員）に現状と位置情報を連絡して指示を仰ぐ。"},
+  {c:"遠征",q:"フェリーを使って遠征する場合の車の乗船手続きは？",a:"車の長さやナンバー情報が必要になるため、事前に配車担当者から情報を集めて役員が一括で予約手続きを行う。"},
+  {c:"先生",q:"先生が自分の車で別行動する場合の配慮は？",a:"駐車場は先生用のスペースを確保（または誘導）し、到着時にすぐに対応できるようにしておく。"},
+  {c:"配車調整",q:"大会の勝ち進み具合によって帰りの時間が読めない場合の配車は？",a:"「お迎え要員」の保護者を事前に数名スタンバイさせておき、試合終了の目処が立ち次第LINEで呼び出す。"},
+  {c:"マナー",q:"他校の保護者が駐車場誘導をしてくれた場合の対応は？",a:"すれ違う際や車を降りた際に、必ず「ありがとうございます」と感謝を伝えるよう保護者間で共有する。"},
+  {c:"配車調整",q:"自転車で現地集合する場合の荷物運搬はどうするか？",a:"リュックに入らない大きな荷物（ボールカゴ等）は、配車担当の車で別送してサポートする。"},
+  {c:"トラブル",q:"配車時に他の子供の持ち物（水筒など）を車内に置き忘れてしまった場合は？",a:"気づいた時点でLINEで「〇〇君の水筒を預かっています」と連絡し、次回の練習時等に確実に手渡しする。"},
+  {c:"遠征",q:"冬場の遠征で配車担当が気をつけることは？",a:"スタッドレスタイヤの装着有無を事前に確認し、雪の可能性がある地域への配車は装備のある車を優先して割り振る。"},
+  {c:"配車調整",q:"「配車当番はできないが、ガソリン代や高速代を多めに払いたい」という申し出があった場合は？",a:"原則としてお金での解決はせず、できる範囲での協力（近場の送迎や、お茶出し等の別作業への振り替え）を相談する。"},
+  {c:"先生",q:"先生の送迎時に車内で気をつけることは？",a:"先生も疲れているため、無理に話しかけずリラックスしてもらうよう配慮する（もちろん先生から話しかけられたら対応する）。"},
+  {c:"マナー",q:"試合会場で配車担当が待機する場所の注意点は？",a:"生徒のプレーの邪魔になる場所や、他の観客の通行の妨げになる場所（出入り口付近など）には固まらないようにする。"},
+  {c:"配車調整",q:"配車アンケートで「〇」をつけたのに全く割り振られない保護者がいる場合は？",a:"ローテーションの都合や車のサイズの問題があるかもしれないが、不公平感を持たせないよう一言フォローを入れておく。"},
+  {c:"駐車場",q:"雨の日の駐車場誘導で準備すべきものは？",a:"傘だけでは両手が塞がるため、レインコートや長靴、誘導用の目立つライト（必要であれば）を準備する。"},
+  {c:"備品",q:"配車担当が「救急箱」を運ぶ場合の役割は？",a:"ただ運ぶだけでなく、誰かがケガをした時にすぐに絆創膏やテーピング、コールドスプレーを出せるよう、置く場所を把握しておく。"},
+  {c:"トラブル",q:"配車中に車がパンクや故障で動けなくなった場合は？",a:"同乗している生徒を他の配車担当の車や、急遽呼び出した保護者の車に乗り換えさせ、部活の進行に影響が出ないよう対処する。"},
+  {c:"配車調整",q:"配車連絡のLINEで「スタンプのみ」の返信はありか？",a:"重要な連絡（変更や時間確認など）の時は、既読だけでなく「確認しました」と文字で残すようルール化しておくとトラブル防止になる。"},
+  {c:"配車調整",q:"卒業（卒部）間近の時期の配車の配慮は？",a:"3年生の保護者は応援に専念できるよう、可能な限り1・2年生の保護者で配車をカバーする体制をとる。"}
+];
+
+// ══════════════════════════════════════
+//  Synonym Dictionary
+// ══════════════════════════════════════
+const SYNONYMS = {
+  "お金": ["集金","費用","代金","料金","金額","支払","会計","部費","負担"],
+  "集金": ["お金","徴収","回収","支払い"],
+  "弁当": ["お弁当","昼食","昼ご飯","ランチ","食事"],
+  "お弁当": ["弁当","昼食","昼ご飯","ランチ","食事"],
+  "車": ["配車","送迎","乗り合わせ","運転"],
+  "配車": ["車","送迎","乗り合わせ","運転","当番"],
+  "遠征": ["宿泊","合宿","泊まり","ホテル","バス"],
+  "先生": ["顧問","指導者","コーチ","講師","Y先生"],
+  "飲み物": ["お茶","コーヒー","ドリンク","ポット","水分"],
+  "飲み会": ["親睦会","懇親会","打ち上げ"],
+  "親睦会": ["飲み会","懇親会","打ち上げ"],
+  "返金": ["返却","払い戻し","精算"],
+  "キャンセル": ["取消","中止","欠席"],
+  "欠席": ["休む","休み","不参加","キャンセル"],
+  "体育館": ["会場","施設","使用料"],
+  "高速": ["ETC","高速代","高速道路"],
+  "ETC": ["高速","高速代","高速道路"],
+  "駐車場": ["駐車","停める","パーキング"],
+  "Tシャツ": ["ユニフォーム","服装","ウェア"],
+  "けが": ["ケガ","怪我","テーピング","救急"],
+  "天気": ["台風","雨","雪","悪天候"],
+  "寄付": ["寄附","JOC","春高","募金"],
+  "アレルギー": ["食物アレルギー","対応食"],
+  "バス": ["マイクロバス","レンタル","大型"],
+  "予約": ["手配","注文","発注"],
+  "端数": ["差額","お釣り","切り上げ"],
+};
+
+// ══════════════════════════════════════
+//  Search Engine
+// ══════════════════════════════════════
+function expandQuery(query) {
+  const tokens = tokenize(query);
+  const expanded = new Set(tokens);
+  tokens.forEach(t => {
+    if (SYNONYMS[t]) SYNONYMS[t].forEach(s => expanded.add(s));
+    // reverse lookup
+    Object.entries(SYNONYMS).forEach(([k, v]) => {
+      if (v.includes(t)) expanded.add(k);
+    });
+  });
+  return [...expanded];
+}
+
+function tokenize(text) {
+  // Simple Japanese-aware tokenizer: split on particles, punctuation, spaces
+  return text
+    .toLowerCase()
+    .replace(/[？！?!。、,.\s（）()「」『』【】]/g, ' ')
+    .split(/\s+/)
+    .filter(t => t.length > 0);
+}
+
+function ngrams(text, n) {
+  const result = [];
+  for (let i = 0; i <= text.length - n; i++) {
+    result.push(text.substring(i, i + n));
+  }
+  return result;
+}
+
+// Document frequency cache
+let dfCache = null;
+function computeDF() {
+  if (dfCache) return dfCache;
+  dfCache = {};
+  FAQ_DATA.forEach(item => {
+    const combined = item.c + ' ' + item.q + ' ' + item.a;
+    const tokens = new Set(tokenize(combined));
+    tokens.forEach(t => { dfCache[t] = (dfCache[t] || 0) + 1; });
+    // bigrams
+    const bi = ngrams(combined.toLowerCase(), 2);
+    new Set(bi).forEach(b => { dfCache[b] = (dfCache[b] || 0) + 1; });
+  });
+  return dfCache;
+}
+
+function search(query) {
+  if (!query.trim()) return [];
+  
+  const df = computeDF();
+  const N = FAQ_DATA.length;
+  const expandedTokens = expandQuery(query);
+  const queryBigrams = ngrams(query.toLowerCase(), 2);
+  
+  const scored = FAQ_DATA.map((item, idx) => {
+    const combined = (item.c + ' ' + item.q + ' ' + item.a).toLowerCase();
+    const qText = item.q.toLowerCase();
+    let score = 0;
+    
+    // Exact substring match (highest priority)
+    if (combined.includes(query.toLowerCase())) {
+      score += 20;
+    }
+    if (qText.includes(query.toLowerCase())) {
+      score += 15;
+    }
+    
+    // Token matching with TF-IDF-like weighting
+    expandedTokens.forEach(token => {
+      const tl = token.toLowerCase();
+      if (combined.includes(tl)) {
+        const idf = Math.log(N / (1 + (df[tl] || 1)));
+        const qBoost = qText.includes(tl) ? 2.0 : 1.0;
+        const cBoost = item.c.toLowerCase().includes(tl) ? 1.5 : 1.0;
+        score += idf * qBoost * cBoost;
+      }
+    });
+    
+    // Bigram matching
+    queryBigrams.forEach(bi => {
+      if (combined.includes(bi)) {
+        const idf = Math.log(N / (1 + (df[bi] || 1)));
+        score += idf * 0.5;
+      }
+    });
+    
+    return { item, score, idx };
+  });
+  
+  // Apply frequency boost (popular items get a small lift)
+  const maxFreq = Math.max(1, ...Object.values(hitFreq), 1);
+  scored.forEach(s => {
+    const freq = hitFreq[s.idx] || 0;
+    if (freq > 0 && s.score > 0) {
+      s.score += (freq / maxFreq) * 3; // up to +3 points for most popular
+    }
+  });
+  
+  const hits = scored.filter(s => s.score > 0).sort((a, b) => b.score - a.score);
+  
+  // Normalize scores: top = 100%
+  if (hits.length > 0) {
+    const maxScore = hits[0].score;
+    hits.forEach(h => { h.pct = Math.round((h.score / maxScore) * 100); });
+  }
+  
+  return hits;
+}
+
+// ══════════════════════════════════════
+//  Search Frequency Tracking
+// ══════════════════════════════════════
+let hitFreq = {};
+try {
+  const saved = localStorage.getItem('faq_hit_freq');
+  if (saved) hitFreq = JSON.parse(saved);
+} catch(e) { /* localStorage unavailable, use in-memory only */ }
+
+function recordHits(results) {
+  results.forEach(r => {
+    hitFreq[r.idx] = (hitFreq[r.idx] || 0) + 1;
+  });
+  try { localStorage.setItem('faq_hit_freq', JSON.stringify(hitFreq)); } catch(e) {}
+}
+
+// ══════════════════════════════════════
+//  UI Logic
+// ══════════════════════════════════════
+const chatArea = document.getElementById('chatArea');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+
+// Build category chips
+const categories = [...new Set(FAQ_DATA.map(d => d.c))];
+const chipsContainer = document.getElementById('categoryChips');
+categories.forEach(cat => {
+  const chip = document.createElement('button');
+  chip.className = 'chip';
+  chip.textContent = cat;
+  chip.onclick = () => {
+    userInput.value = cat;
+    handleSend();
+  };
+  chipsContainer.appendChild(chip);
+});
+
+// Auto-resize textarea
+userInput.addEventListener('input', () => {
+  userInput.style.height = 'auto';
+  userInput.style.height = Math.min(userInput.scrollHeight, 100) + 'px';
+});
+
+// Enter to send (no shift)
+userInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    handleSend();
+  }
+});
+
+function addMessage(type, content) {
+  const msg = document.createElement('div');
+  msg.className = `message ${type}`;
+  
+  if (type === 'bot') {
+    msg.innerHTML = `<div class="bot-avatar">🏐</div><div class="bubble">${content}</div>`;
+  } else {
+    msg.innerHTML = `<div class="bubble">${escapeHtml(content)}</div>`;
+  }
+  
+  chatArea.appendChild(msg);
+  scrollToBottom();
+}
+
+function addTypingIndicator() {
+  const msg = document.createElement('div');
+  msg.className = 'message bot';
+  msg.id = 'typingIndicator';
+  msg.innerHTML = `<div class="bot-avatar">🏐</div><div class="bubble"><span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>`;
+  chatArea.appendChild(msg);
+  scrollToBottom();
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+// Last search results cache (for refinement filtering)
+let lastResults = [];
+let lastQuery = '';
+
+function handleSend() {
+  const query = userInput.value.trim();
+  if (!query) return;
+  
+  addMessage('user', query);
+  userInput.value = '';
+  userInput.style.height = 'auto';
+  
+  addTypingIndicator();
+  
+  setTimeout(() => {
+    removeTypingIndicator();
+    
+    const results = search(query);
+    lastResults = results;
+    lastQuery = query;
+    
+    if (results.length === 0) {
+      addMessage('bot', `<span class="no-result">「${escapeHtml(query)}」に該当するFAQが見つかりませんでした。<br>別のキーワードで試してみてね。</span>`);
+      return;
+    }
+    
+    // Record hits for frequency boosting
+    recordHits(results.slice(0, 10));
+    
+    displayResults(results, query, null);
+  }, 400 + Math.random() * 300);
+}
+
+function displayResults(results, query, activeFilter) {
+  const INITIAL_SHOW = 5;
+  const top = results.slice(0, INITIAL_SHOW);
+  const rest = results.slice(INITIAL_SHOW);
+  
+  let html = '';
+  if (activeFilter) {
+    html += `「${escapeHtml(query)}」→ <b>${escapeHtml(activeFilter)}</b> で絞り込み：<b>${results.length}件</b>`;
+  } else {
+    html += `<b>${results.length}件</b>ヒット（関連度順）：`;
+  }
+  
+  // Render top 5
+  top.forEach(r => { html += renderResultCard(r); });
+  
+  // If there are more results
+  if (rest.length > 0) {
+    const remainId = 'remain_' + Date.now();
+    
+    // Collect categories from ALL results for refinement
+    const catCounts = {};
+    results.forEach(r => {
+      catCounts[r.item.c] = (catCounts[r.item.c] || 0) + 1;
+    });
+    const refineCats = Object.entries(catCounts)
+      .filter(([cat]) => cat !== activeFilter) // exclude already-applied filter
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    
+    html += `<div class="refine-section">`;
+    html += `<div class="refine-label">さらに絞り込む：</div>`;
+    html += `<div class="chips-container">`;
+    
+    if (refineCats.length > 1) {
+      refineCats.forEach(([cat, cnt]) => {
+        html += `<button class="chip refine-chip" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}(${cnt})</button>`;
+      });
+    }
+    
+    html += `<button class="chip show-rest-chip" data-remain-id="${remainId}">このまま残り${rest.length}件を表示</button>`;
+    html += `</div>`;
+    
+    // Hidden remaining results
+    html += `<div id="${remainId}" class="remaining-results" style="display:none;">`;
+    rest.forEach(r => { html += renderResultCard(r); });
+    html += `</div>`;
+    
+    html += `</div>`;
+  }
+  
+  addMessage('bot', html);
+  
+  // Attach handlers (latest message only)
+  const lastMsg = chatArea.lastElementChild;
+  if (lastMsg) {
+    // Refinement: filter lastResults by category, not re-search
+    lastMsg.querySelectorAll('.refine-chip').forEach(chip => {
+      chip.onclick = () => {
+        const cat = chip.dataset.cat;
+        const filtered = lastResults.filter(r => r.item.c === cat);
+        // Re-normalize scores within filtered set
+        if (filtered.length > 0) {
+          const maxScore = filtered[0].score;
+          filtered.forEach(h => { h.pct = Math.round((h.score / maxScore) * 100); });
+        }
+        // Show as user action
+        addMessage('user', `${cat} で絞り込み`);
+        displayResults(filtered, lastQuery, cat);
+      };
+    });
+    lastMsg.querySelectorAll('.show-rest-chip').forEach(btn => {
+      btn.onclick = () => {
+        const target = document.getElementById(btn.dataset.remainId);
+        if (target) {
+          target.style.display = 'block';
+          btn.style.display = 'none';
+          // スクロール位置はそのまま。下にびろーんと伸びるだけ。
+        }
+      };
+    });
+  }
+}
+
+function renderResultCard(r) {
+  const barColor = r.pct >= 70 ? 'var(--accent)' : r.pct >= 40 ? '#d4a44a' : 'var(--muted)';
+  return `
+    <div class="result-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+        <span class="result-category">${escapeHtml(r.item.c)}</span>
+        <span class="score-badge" style="font-size:11px;font-weight:700;color:${barColor};">${r.pct}%</span>
+        <div class="score-bar"><div class="score-fill" style="width:${r.pct}%;background:${barColor};"></div></div>
+      </div>
+      <div class="result-q">Q. ${escapeHtml(r.item.q)}</div>
+      <div class="result-a">A. ${escapeHtml(r.item.a)}</div>
+    </div>`;
+}
+
+function scrollToBottom() {
+  requestAnimationFrame(() => {
+    chatArea.scrollTop = chatArea.scrollHeight;
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Focus input on load (desktop)
+if (window.innerWidth > 768) {
+  userInput.focus();
+}
+</script>
+</body>
+</html>

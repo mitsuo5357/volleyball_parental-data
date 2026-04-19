@@ -251,6 +251,7 @@ body {
   margin-bottom: 6px;
   font-weight: 500;
 }
+
 .show-rest-chip {
   background: var(--user-bubble) !important;
   color: white !important;
@@ -586,6 +587,7 @@ body {
   <textarea id="userInput" rows="1" placeholder="ここに質問を入力…" enterkeyhint="send" autocomplete="off"></textarea>
   <button class="send-btn" id="sendBtn" onclick="handleSend()">➤</button>
 </div>
+
 <div class="modal" id="helpModal">
   <div class="modal-content">
     <button class="modal-close" data-close>&times;</button>
@@ -671,7 +673,6 @@ body {
     </div>
   </div>
 </div>
-
 <script>
 // ══════════════════════════════════════
 //  FAQ Data (inline)
@@ -902,7 +903,6 @@ const FAQ_DATA = [
   {c:"配車調整",q:"配車連絡のLINEで「スタンプのみ」の返信はありか？",a:"重要な連絡（変更や時間確認など）の時は、既読だけでなく「確認しました」と文字で残すようルール化しておくとトラブル防止になる。"},
   {c:"配車調整",q:"卒業（卒部）間近の時期の配車の配慮は？",a:"3年生の保護者は応援に専念できるよう、可能な限り1・2年生の保護者で配車をカバーする体制をとる。"}
 ];
-
 // ══════════════════════════════════════
 //  Synonym Dictionary (array-group format, bidirectional)
 // ══════════════════════════════════════
@@ -952,6 +952,37 @@ function expandWithSynonyms(tokens) {
     });
   });
   return [...expanded];
+}
+
+// ══════════════════════════════════════
+//  Text Normalization
+// ══════════════════════════════════════
+function kataToHira(str) {
+  return str.replace(/[\u30A1-\u30F6]/g, ch =>
+    String.fromCharCode(ch.charCodeAt(0) - 0x60)
+  );
+}
+function normalizeText(str) {
+  let s = (str || '')
+    .replace(/　/g, ' ')
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, ch =>
+      String.fromCharCode(ch.charCodeAt(0) - 0xFEE0)
+    );
+  s = kataToHira(s);
+  return s.toLowerCase();
+}
+
+// ══════════════════════════════════════
+//  Noise words (stripped before search)
+// ══════════════════════════════════════
+const NOISE_WORDS = [
+  'について','について教えて','教えて','教えてください','ください',
+  '知りたい','したい','とは','って何','ってなに','ってなんですか',
+  'どうすれば','どうしたら','どうやって','どうすればいい',
+  'ですか','でしょうか','ますか','のか','のですか',
+  'よろしく','お願いします','お願い','すみません','おしえて'
+];
+
 // ══════════════════════════════════════
 //  Variant Dictionary (表記ゆれ・抽象語展開)
 // ══════════════════════════════════════
@@ -1105,7 +1136,6 @@ function search(query) {
 
   return hits;
 }
-
 // ══════════════════════════════════════
 //  Search Frequency Tracking
 // ══════════════════════════════════════
@@ -1280,6 +1310,7 @@ const FACET_STOP = new Set([
   'について','として','において','により','によって','または','および','ただし','なお',
   'はい','いいえ','そう','うん','ええ','実施','使用','利用','対応','準備'
 ]);
+
 function displayResults(results, query, activeCatFilter, activeWordFilter) {
   const INITIAL_SHOW = 5;
   const top = results.slice(0, INITIAL_SHOW);
@@ -1411,7 +1442,8 @@ const suggestPool = (() => {
   FAQ_DATA.forEach(d => {
     const blob = d.q;
     const chunks = blob
-      .replace(/[？！?!。、,.「」『』【】()（）\s]/g, 'split(/[のがをにへとでやはもかまですからただしなおまたはよりまでへは]/g)
+      .replace(/[？！?!。、,.「」『』【】()（）\s]/g, ' ')
+      .split(/[のがをにへとでやはもかまですからただしなおまたはよりまでへは]/g)
       .map(s => s.trim())
       .filter(s => s.length >= 2 && s.length <= 6);
     chunks.forEach(c => {

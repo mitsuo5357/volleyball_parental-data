@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>バレー部 保護者会FAQ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #f5f0eb;
+  --chat-bg: #ffffff;
+  --user-bubble: #4a90d9;
+  --user-text: #ffffff;
+  --bot-bubble: #ffffff;
+  --bot-text: #333333;
+  --accent: #e8734a;
+  --accent-light: #fff0eb;
+  --border: #e0d8d0;
+  --muted: #8a8078;
+  --shadow: rgba(120, 100, 80, 0.08);
+  --header-bg: #4a90d9;
+  --header-text: #ffffff;
+  --category-bg: #f0e8e0;
+  --category-text: #6b5d4f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--bot-text);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.header-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.header-info h1 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.header-info p {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 1px;
+}
+
+/* ── Chat Area ── */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Bubbles ── */
+.message {
+  display: flex;
+  gap: 8px;
+  max-width: 88%;
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message.bot {
+  align-self: flex-start;
+}
+
+.bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.message.user .bubble {
+  background: var(--user-bubble);
+  color: var(--user-text);
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot .bubble {
+  background: var(--bot-bubble);
+  color: var(--bot-text);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+
+.bot-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Result cards inside bot bubble ── */
+.result-card {
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 8px;
+}
+
+.result-card:first-of-type {
+  margin-top: 4px;
+}
+
+.result-category {
+  display: inline-block;
+  background: var(--category-bg);
+  color: var(--category-text);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+.result-q {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  color: #4a3f35;
+}
+
+.result-a {
+  font-size: 13px;
+  color: #5a5046;
+  line-height: 1.6;
+}
+
+.no-result {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── Score bar ── */
+.score-bar {
+  flex: 1;
+  height: 4px;
+  background: #e8e0d8;
+  border-radius: 2px;
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.score-badge {
+  white-space: nowrap;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ── Category chips ── */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chip {
+  background: var(--category-bg);
+  color: var(--category-text);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.chip:hover, .chip:active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ── Refine section ── */
+.refine-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.refine-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.show-rest-chip {
+  background: var(--user-bubble) !important;
+  color: white !important;
+  border-color: var(--user-bubble) !important;
+  font-weight: 700 !important;
+}
+
+.show-rest-chip:hover, .show-rest-chip:active {
+  background: #3a7ac0 !important;
+  border-color: #3a7ac0 !important;
+}
+
+.remaining-results {
+  animation: fadeUp 0.3s ease;
+}
+
+/* ── Input Area ── */
+.input-area {
+  padding: 10px 12px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  background: var(--chat-bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.input-area textarea {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  max-height: 100px;
+  line-height: 1.4;
+  background: var(--bg);
+  transition: border-color 0.2s;
+  overflow-y: auto;
+  rows: 1;
+}
+
+.input-area textarea:focus {
+  border-color: var(--user-bubble);
+}
+
+.send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--user-bubble);
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.send-btn:active {
+  transform: scale(0.92);
+  background: #3a7ac0;
+}
+
+.send-btn:disabled {
+  background: #c0c0c0;
+  cursor: default;
+}
+
+/* ── Scrollbar ── */
+.chat-area::-webkit-scrollbar { width: 4px; }
+.chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ── Welcome ── */
+.welcome-msg {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.welcome-msg h2 {
+  font-size: 18px;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.welcome-msg p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── Typing indicator ── */
+.typing .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--muted);
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: blink 1.2s infinite;
+}
+.typing .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  0%, 60%, 100% { opacity: 0.3; }
+  30% { opacity: 1; }
+}
+
+/* ── Hamburger Menu ── */
+.header { position: relative; }
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  color: var(--header-text);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.hamburger-btn:hover, .hamburger-btn:active {
+  background: rgba(255,255,255,0.15);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 12px;
+  top: 56px;
+  background: #fff;
+  min-width: 200px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  z-index: 2000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dropdown-content.show { display: block; }
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.dropdown-content a:last-child { border-bottom: none; }
+.dropdown-content a:hover { background: #f5f5f5; }
+
+.version-badge {
+  margin-left: auto;
+  font-size: 10px;
+  opacity: 0.7;
+  background: rgba(255,255,255,0.15);
+  padding: 3px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Modal ── */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  left: 0; top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+.modal.show { display: flex; }
+.modal-content {
+  background: #fff;
+  padding: 20px 22px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+}
+.modal-content h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--header-bg);
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+.modal-close:hover { color: #333; }
+.modal-body { font-size: 14px; line-height: 1.7; color: #444; margin-top: 12px; }
+.modal-body ul { padding-left: 20px; margin: 8px 0; }
+.modal-body li { margin-bottom: 4px; }
+.modal-body p { margin-bottom: 10px; }
+.changelog-list { margin-top: 12px; }
+.log-item {
+  margin-bottom: 14px;
+  border-bottom: 1px dashed #ddd;
+  padding-bottom: 10px;
+}
+.log-item:last-child { border-bottom: none; }
+.log-date {
+  font-weight: bold;
+  color: var(--header-bg);
+  font-size: 13px;
+}
+.log-item ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* ── Autocomplete ── */
+.input-area { position: relative; }
+#suggest-box {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  right: 16px;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  margin-bottom: -1px;
+}
+.suggest-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f3f3;
+  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+}
+.suggest-item:last-child { border-bottom: none; }
+.suggest-item:hover, .suggest-item.active {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.suggest-item strong { color: var(--accent); }
+
+/* ── Category Color Tags (volleyball FAQ 22 categories) ── */
+.result-category {
+  color: #fff;
+  border: none;
+}
+.cat-集金         { background: #c0392b; }
+.cat-活動費       { background: #a93226; }
+.cat-事務         { background: #884ea0; }
+.cat-役員         { background: #6c3483; }
+.cat-組織         { background: #5b2c6f; }
+.cat-情報共有     { background: #2471a3; }
+.cat-配車         { background: #1f6aa5; }
+.cat-配車調整     { background: #1a5490; }
+.cat-駐車場       { background: #34495e; }
+.cat-遠征         { background: #117864; }
+.cat-手配         { background: #148f77; }
+.cat-備品         { background: #0e6655; }
+.cat-マナー       { background: #b7950b; }
+.cat-トラブル     { background: #ba4a00; }
+.cat-健康         { background: #c0392b; }
+.cat-飲食         { background: #ca6f1e; }
+.cat-お弁当       { background: #dc7633; }
+.cat-親睦会       { background: #af601a; }
+.cat-イベント     { background: #d68910; }
+.cat-慶弔         { background: #7d6608; }
+.cat-先生         { background: #273746; }
+.cat-寄付         { background: #6e2c00; }
+.cat-default      { background: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <button class="hamburger-btn" id="menuToggle" title="メニュー" aria-label="メニュー">☰</button>
+  <div class="dropdown-content" id="dropdownMenu">
+    <a href="#" id="menuHelp">❓ ヘルプ（使い方）</a>
+    <a href="#" id="menuRelease">📜 リリースノート</a>
+    <a href="#" id="menuVersion">ℹ️ バージョン情報</a>
+  </div>
+  <div class="header-icon">🏐</div>
+  <div class="header-info">
+    <h1>保護者会FAQ</h1>
+    <p>質問やキーワードを入力してね</p>
+  </div>
+  <span class="version-badge">v2.1.0</span>
+</div>
+
+<div class="chat-area" id="chatArea">
+  <div class="welcome-msg">
+    <h2>ようこそ！</h2>
+    <p>バレー部保護者会のFAQボットです。<br>知りたいことを入力するか、<br>下のカテゴリから選んでね。</p>
+  </div>
+  <div class="message bot" id="welcomeChips">
+    <div class="bot-avatar">📋</div>
+    <div class="bubble">
+      よく聞かれるカテゴリはこちら：
+      <div class="chips-container" id="categoryChips"></div>
+    </div>
+  </div>
+</div>
+
+<div class="input-area">
+  <div id="suggest-box"></div>
+  <textarea id="userInput" rows="1" placeholder="ここに質問を入力…" enterkeyhint="send" autocomplete="off"></textarea>
+  <button class="send-btn" id="sendBtn" onclick="handleSend()">➤</button>
+</div>
+
+<div class="modal" id="helpModal">
+  <div class="modal-content">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>❓ ヘルプ（使い方）</h2>
+    <div class="modal-body">
+      <p><strong>【基本的な使い方】</strong></p>
+      <ul>
+        <li>調べたいキーワードを入力して送信ボタン（➤）またはEnterを押してね。</li>
+        <li>キーワードの間にスペースを入れると絞り込み検索（AND）ができるよ。<br>例：「配車 高速」「お弁当 アレルギー」</li>
+        <li>入力中に候補が自動で出てくるので、タップかクリックで選べるよ。</li>
+        <li>↑↓キーで候補を選んで、Enterで確定もできるよ。</li>
+      </ul>
+      <p><strong>【検索のコツ】</strong></p>
+      <ul>
+        <li>うまくヒットしない時は、別の言い方を試してみてね（類義語や表記ゆれは自動でカバーしているけど万能じゃないの）。</li>
+        <li>検索結果が多い時は「さらに絞り込む」ボタンでカテゴリや関連ワードから絞り込めるよ。</li>
+        <li>最初はトップ5件が表示されて、残りは「このまま表示」ボタンで展開できるよ。</li>
+      </ul>
+      <p><strong>【便利機能】</strong></p>
+      <ul>
+        <li>トップ画面のカテゴリチップをタップすると、そのカテゴリの質問を一覧できるよ。</li>
+        <li>よく検索される質問は、関連度スコアに少しブーストがかかるようになっているよ。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="releaseModal">
+  <div class="modal-content">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>📜 リリースノート</h2>
+    <div class="changelog-list">
+      <div class="log-item">
+        <span class="log-date">2026.4.19 (v2.1.0)</span>
+        <ul>
+          <li>QAの重複（配車、親睦会、駐車場等）を統合・整理</li>
+          <li>集金時の端数処理ルールを「基本切り上げ、余剰は部費（都度確認）」に統一</li>
+          <li>過去の特定日付や個人名が入った個別事例を汎用的なルール表現に書き換え</li>
+        </ul>
+      </div>
+      <div class="log-item">
+        <span class="log-date">2026.4.19 (v2.0.0)</span>
+        <ul>
+          <li>検索エンジン大幅強化：全角半角・カタカナひらがな正規化、ノイズワード除去、表記ゆれ辞書を追加</li>
+          <li>スコア足切り機能を追加（関連度が低すぎる結果を自動除外）</li>
+          <li>TF-IDF重みの上下クリップで極端な挙動を抑制</li>
+          <li>1文字ひらがなの誤ヒット防止</li>
+          <li>ファセット絞り込みを強化：カテゴリだけでなく、質問本文からも関連ワードを抽出して候補に提示</li>
+          <li>自動補完（オートコンプリート）を追加：入力中にキーワード候補を表示</li>
+          <li>ハンバーガーメニューを追加（ヘルプ／リリースノート／バージョン情報）</li>
+          <li>カテゴリごとの色分けタグを追加</li>
+        </ul>
+      </div>
+      <div class="log-item">
+        <span class="log-date">2026.4 (v1.0.0)</span>
+        <ul>
+          <li>初版リリース</li>
+          <li>過去のLINE履歴からQA 239件を抽出・整備</li>
+          <li>TF-IDF風スコアリング、bigram、類義語展開に対応</li>
+          <li>カテゴリファセット絞り込み、頻度ブースト機能を搭載</li>
+          <li>GitHub Pages で公開</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="versionModal">
+  <div class="modal-content" style="text-align:center;">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>ℹ️ バージョン情報</h2>
+    <div style="margin-top:16px;">
+      <div style="font-size:40px; margin-bottom:8px;">🏐</div>
+      <h3 style="color:var(--header-bg); margin:4px 0;">バレー部 保護者会FAQ</h3>
+      <p style="font-size:18px; font-weight:bold; color:#333;">Version 2.1.0</p>
+      <p style="font-size:12px; color:#888;">最終更新日: 2026年4月19日</p>
+      <p style="font-size:12px; color:#999; margin-top:20px; line-height:1.7;">
+        引継ぎ用FAQチャットボット<br>
+        過去のグループLINE履歴から作成<br>
+        <br>
+        1ファイル完結型 / GitHub Pages対応
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  FAQ Data (inline)
+// ══════════════════════════════════════
+const FAQ_DATA = [
+  {c:"集金",q:"遠征等の集金で発生する少額の端数はどう処理するか？",a:"基本的には10円単位等できり上げて集金し、余った分を部費に入れる運用だが、金額や状況に応じて都度役員間で確認が必要。"},
+  {c:"集金",q:"大会に向けた集金の締切設定は？",a:"大会の初日などを目安に早めに締切を設定する。"},
+  {c:"集金",q:"大会途中で体調不良等により帰宅した場合の交通費（集金）の扱いは？",a:"不可抗力のため、基本的には往復分として計算して集金する。"},
+  {c:"集金",q:"欠席した家庭からも交通費等を集金するのか？",a:"欠席者は除外し、参加した家庭のみで割って集金する。"},
+  {c:"配車",q:"近隣での一日練習での配車は必要か？",a:"学校など近場になる予定の場合は、基本的には配車なし（各自自転車等）とする。"},
+  {c:"お弁当",q:"近隣での一日練習時のお昼ご飯はどうするか？",a:"各自持参を基本とする。"},
+  {c:"お弁当",q:"大会のお弁当代は部費から出すか、各自徴収か？",a:"部費から出したいが、JOCの寄付金も部費から出す予定なので2日間分出すのは厳しい。"},
+  {c:"集金",q:"JOC寄付金を各家庭からの集金にすれば、部費からお弁当代が出せるか？",a:"JOC寄付金を集金にして部費を浮かす案もある。"},
+  {c:"お弁当",q:"大会のお弁当が3日間になった場合、費用はどうするか？",a:"今後の活動費を考え、今回は3日間とも各自集金とする。"},
+  {c:"お弁当",q:"大会のお弁当内容に指定はあるか？",a:"麺とおにぎりの指定がある。"},
+  {c:"備品",q:"メガホンを拭く除菌シートが切れていて部室にも予備がない。誰が購入するか？",a:"塩分チャージを購入する役員が一緒に購入する。"},
+  {c:"お弁当",q:"大会や練習試合での先生のお弁当手配はどうするか？",a:"先生が外に食べに出る場合は不要。手配が必要な場合は役員が買いに行くか事前に注文する。余った場合は役員や保護者が買い取る。"},
+  {c:"備品",q:"大会時のキーパー、氷、水、先生の水筒などの手配は？",a:"朝一で当番の役員が行き、必要に応じて昼から別の役員が交代で行く。"},
+  {c:"飲食",q:"合同練習や試合時のお茶・お菓子・飲み物は他校と折半するか？",a:"前日までに折半するかどうかが決まるため、分かり次第自校で用意するか含めて連絡・調整する。"},
+  {c:"備品",q:"他校に持っていくクーラーボックスや紙コップなどはどう運ぶか？",a:"役員が自分の車で運ぶ。"},
+  {c:"飲食",q:"用意する飲み物は温かいものがいいか？",a:"温かいものを用意する。各自ポットの準備をお願いする。"},
+  {c:"親睦会",q:"他校との合同親睦会の計画は進めてよいか？",a:"先生と相談した上で改めて連絡・調整する。"},
+  {c:"遠征",q:"遠方への宿泊遠征の打診があった場合はどうするか？",a:"役員間で協議のうえ、先生と話を進める（後日キャンセルになる場合もあるため柔軟に対応）。"},
+  {c:"親睦会",q:"合同親睦会の場所はどう決めるか？",a:"他校の役員の意向も確認し、人数が入るか確認した上で予約を進める。"},
+  {c:"親睦会",q:"親睦会での先生の飲み代や飲み物はどう手配するか？",a:"他の先生方に合わせてコース（飲み放題等）にするか、個別に好みの飲み物（ビール等）を持ち込みで用意するか、状況に応じて手配する。"},
+  {c:"親睦会",q:"親睦会の出欠確認はいつまでにすればよいか？",a:"会場予約の都合に合わせ、早めに締切を設定してお願いする。"},
+  {c:"親睦会",q:"親睦会の名称は何とするか？",a:"先生が「合同親睦会」と呼んでいたので、そちらに合わせる。"},
+  {c:"親睦会",q:"親睦会での部員の参加費（食事代）はどうするか？",a:"いつも負担をかけているため、基本的には部費から出す。"},
+  {c:"活動費",q:"バレー祭の費用はどこから出るか？",a:"学校から上限8,000円まで出してもらえる。役員が学校へ取りに行く。"},
+  {c:"集金",q:"大会の参加料の支払いはいつまでか？",a:"期日までに指定口座へ振り込む、または当日の朝に現金で渡すなど、大会の規定や先生の指示に従う。"},
+  {c:"活動費",q:"合同チームの場合、大会の参加費はどうなるか？",a:"参加費を自校と合同チームで折半する（例：5000円なら2500円ずつ）。支払い方法については他校会長に確認する。"},
+  {c:"飲食",q:"遠征時の外食時、先生の食事代は部費から出した方がよいか？",a:"過去にも出していないケースがあるため、出さなくて大丈夫。"},
+  {c:"飲食",q:"外部講師用の飲み物は何を用意するか？",a:"冷たいお茶とコーヒー（ブラック）のペットボトルを1本ずつ用意する。"},
+  {c:"配車",q:"自校近くの他校会場への交通手段はどうするか？",a:"いつも通り自転車とする。"},
+  {c:"活動費",q:"学校からの県大会補助金と活動費は誰が受け取るか？",a:"役員が受け取りに行き、金曜日の参観日で他の役員にお渡しする。"},
+  {c:"お弁当",q:"合同練習のお弁当代は、全学校分を部費から立て替えて支払えないか？",a:"他校はまとめた金額で持ってきてくれると思われるため、別で準備する形で対応する。"},
+  {c:"お弁当",q:"外部講師の方のお弁当代はどうするか？",a:"先生からの依頼により、講師の分のお弁当代もこちらで出す。"},
+  {c:"寄付",q:"上位大会出場の寄付金（JOC、春高）はいくら、どこから出すか？",a:"各1万円ずつ部費から出す。"},
+  {c:"寄付",q:"寄付金はいつお渡しするか？",a:"12月中にお渡しする。"},
+  {c:"寄付",q:"都工への寄付金はいつ持っていくか？",a:"3年生がいない日を避け、12/4以降に持って行く。お金の準備ができたら先生に託す。"},
+  {c:"活動費",q:"体育館使用料などの支払いはどうするか？",a:"金額が分かれば練習の時に先生に渡し、間に合わなければ先生に立て替えてもらい後日精算する。"},
+  {c:"活動費",q:"欠席する部員の栄養会費はどうするか？",a:"キャンセル扱いとする。"},
+  {c:"配車",q:"遠征でバスの仮予約が必要な場合はどうするか？",a:"役員等からバス会社へ連絡してもらう。"},
+  {c:"配車",q:"マイクロバス等の運転は誰にお願いするか？",a:"大型免許を持っている保護者（役員の旦那さん等）に事前に打診し、お願いする。"},
+  {c:"遠征",q:"遠征の宿泊先の手配はどう進めるか？",a:"役員がホテルに電話して空き状況や料金、バスの駐車可否を確認する。"},
+  {c:"遠征",q:"正月など繁忙期のホテル探しの注意点は？",a:"料金が高騰し、バス駐車代もかかる場合が多いので複数見積もる。"},
+  {c:"遠征",q:"宿泊遠征のホテルはどう決めるか？",a:"過去の実績（安くてバス駐車が可能など）を参考に複数見積もって手配する。"},
+  {c:"遠征",q:"ホテルの部屋割りはどうするか？",a:"部員の人数と同行保護者、指導者の人数からツインとシングルを組み合わせて予約する。"},
+  {c:"事務",q:"保険証の確認はどうするか？",a:"厚労省の案内に基づき、マイナ保険証での提出を保護者に呼びかける。"},
+  {c:"遠征",q:"ホテルの部屋割り（部員用）はどうやって決めるか？",a:"先生が決めるため、予約段階では仮で適当な名前を入れて提出する。"},
+  {c:"親睦会",q:"大人数の合同親睦会の会場探しのポイントは？",a:"人数が入るか、持ち込みが可能かを確認し仮予約する。"},
+  {c:"備品",q:"ペナント料の請求書はどう処理するか？",a:"先生から預かり、役員が支払いを行う。"},
+  {c:"お弁当",q:"大会時のお昼ご飯は何時までに食べるか？",a:"先生からの指示（例：13時35分まで）に合わせて手配・呼びかけを行う。"},
+  {c:"集金",q:"合宿の参加費はいくらか？",a:"参加日数によって異なる（例：1日間1,500円、2日間3,000円など）。"},
+  {c:"集金",q:"合宿参加費はいつ集金するか？",a:"合宿参加1日目に集金する。急な不参加の返金は不可。"},
+  {c:"備品",q:"合宿の服装はどうするか？",a:"可能な限りユニフォームで参加。洗濯が間に合わない場合は練習着でも可。"},
+  {c:"集金",q:"遠征の集金金額の計算はどうするか？",a:"部員の基本料金（バス代等）を出し、保護者が同行する場合はそれに宿泊費を足す。"},
+  {c:"集金",q:"宿泊遠征の集金金額の目安と集金日は？",a:"部員と同行保護者の実費（バス・宿泊等）を計算し、指定の練習日に集金する。"},
+  {c:"備品",q:"初練習などへの差し入れはどうするか？",a:"慣例に従い、アクエリアス等を箱で購入して渡す。"},
+  {c:"備品",q:"他校へのお土産はどうするか？",a:"以前別の学校にお渡ししたものと同等のものを用意する。"},
+  {c:"備品",q:"他の部活から横断幕を張りたいと言われたらどうするか？",a:"バレー部の横断幕を外し、部室で保管し、先生に報告する。"},
+  {c:"遠征",q:"遠征先での空き時間の予定（初詣など）はどう決めるか？",a:"保護者から案を出し、先生の了承を得て決定する。"},
+  {c:"配車",q:"マイクロバスのETCカードはどうするか？",a:"役員個人のETCカードを持っていき、後日現金で精算する。"},
+  {c:"遠征",q:"遠征時のコインランドリーの洗剤はどうするか？",a:"役員が自宅の洗剤を持っていく（部室にも残っている可能性あり）。"},
+  {c:"お弁当",q:"合同練習のお昼ご飯の指定はあるか？",a:"特に指定がなければ普通のお弁当でよい。"},
+  {c:"親睦会",q:"親睦会の大人の飲み物はどうするか？（コースか持ち込みか）",a:"多数決の結果、持ち込みとする。"},
+  {c:"活動費",q:"大会の参加費の領収書はどうするか？",a:"学校に補助申請してもらうため、先生から預かり処理する。"},

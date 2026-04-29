@@ -28,10 +28,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
+html, body { height: 100%; overflow: hidden; }
 
 body {
   font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
@@ -67,22 +64,9 @@ body {
   flex-shrink: 0;
 }
 
-.header-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.header-info h1 {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.header-info p {
-  font-size: 11px;
-  opacity: 0.8;
-  margin-top: 1px;
-}
+.header-info { display: flex; flex-direction: column; }
+.header-info h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.02em; }
+.header-info p { font-size: 11px; opacity: 0.8; margin-top: 1px; }
 
 .header-btn {
   margin-left: auto;
@@ -98,9 +82,7 @@ body {
   flex-shrink: 0;
 }
 
-.header-btn:hover, .header-btn:active {
-  background: rgba(255,255,255,0.3);
-}
+.header-btn:hover, .header-btn:active { background: rgba(255,255,255,0.3); }
 
 /* ── Chat Area ── */
 .chat-area {
@@ -115,426 +97,98 @@ body {
 }
 
 /* ── Bubbles ── */
-.message {
-  display: flex;
-  gap: 8px;
-  max-width: 88%;
-  animation: fadeUp 0.3s ease;
-}
+.message { display: flex; gap: 8px; max-width: 88%; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.message.user { align-self: flex-end; flex-direction: row-reverse; }
+.message.bot { align-self: flex-start; }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.message.user {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-}
-
-.message.bot {
-  align-self: flex-start;
-}
-
-.bubble {
-  padding: 10px 14px;
-  border-radius: 18px;
-  font-size: 14px;
-  line-height: 1.65;
-  word-break: break-word;
-}
-
-.message.user .bubble {
-  background: var(--user-bubble);
-  color: var(--user-text);
-  border-bottom-right-radius: 4px;
-}
-
-.message.bot .bubble {
-  background: var(--bot-bubble);
-  color: var(--bot-text);
-  border-bottom-left-radius: 4px;
-  box-shadow: 0 1px 4px var(--shadow);
-}
+.bubble { padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.65; word-break: break-word; }
+.message.user .bubble { background: var(--user-bubble); color: var(--user-text); border-bottom-right-radius: 4px; }
+.message.bot .bubble { background: var(--bot-bubble); color: var(--bot-text); border-bottom-left-radius: 4px; box-shadow: 0 1px 4px var(--shadow); }
 
 .bot-avatar {
-  width: 32px;
-  height: 32px;
-  background: var(--accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-  margin-top: 2px;
+  width: 32px; height: 32px; background: var(--accent); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; margin-top: 2px;
 }
 
-/* ── Result cards inside bot bubble ── */
-.result-card {
-  background: var(--accent-light);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-top: 8px;
-}
+/* ── Result cards ── */
+.result-card { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 12px; margin-top: 8px; }
+.result-card:first-of-type { margin-top: 4px; }
+.result-card.fuzzy { background: #f0f4f8; border-left: 3px solid #b0bec5; opacity: 0.9; }
 
-.result-card:first-of-type {
-  margin-top: 4px;
-}
-
-.result-card.fuzzy {
-  background: #f0f4f8;
-  border-left: 3px solid #b0bec5;
-  opacity: 0.9;
-}
-
-.result-category {
-  display: inline-block;
-  background: var(--category-bg);
-  color: var(--category-text);
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-bottom: 5px;
-}
-
-.result-q {
-  font-weight: 700;
-  font-size: 13px;
-  margin-bottom: 4px;
-  color: #4a3f35;
-}
-
-.result-a {
-  font-size: 13px;
-  color: #5a5046;
-  line-height: 1.6;
-}
-
-.no-result {
-  color: var(--muted);
-  font-size: 13px;
-}
+.result-category { display: inline-block; background: var(--category-bg); color: var(--category-text); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; margin-bottom: 5px; }
+.result-q { font-weight: 700; font-size: 13px; margin-bottom: 4px; color: #4a3f35; }
+.result-a { font-size: 13px; color: #5a5046; line-height: 1.6; }
+.no-result { color: var(--muted); font-size: 13px; }
 
 /* ── Score bar ── */
-.score-bar {
-  flex: 1;
-  height: 4px;
-  background: #e8e0d8;
-  border-radius: 2px;
-  overflow: hidden;
-  min-width: 40px;
-}
-
-.score-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.4s ease;
-}
-
-.score-badge {
-  white-space: nowrap;
-  min-width: 30px;
-  text-align: right;
-}
+.score-bar { flex: 1; height: 4px; background: #e8e0d8; border-radius: 2px; overflow: hidden; min-width: 40px; }
+.score-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
+.score-badge { white-space: nowrap; min-width: 30px; text-align: right; }
 
 /* ── Category chips ── */
-.chips-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.chip {
-  background: var(--category-bg);
-  color: var(--category-text);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-
-.chip:hover, .chip:active {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
+.chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip { background: var(--category-bg); color: var(--category-text); border: 1px solid var(--border); border-radius: 16px; padding: 5px 12px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.chip:hover, .chip:active { background: var(--accent); color: white; border-color: var(--accent); }
 
 /* ── Refine section ── */
-.refine-section {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dashed var(--border);
-}
-
-.refine-label {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.show-rest-chip {
-  background: var(--user-bubble) !important;
-  color: white !important;
-  border-color: var(--user-bubble) !important;
-  font-weight: 700 !important;
-}
-
-.show-rest-chip:hover, .show-rest-chip:active {
-  background: #3a7ac0 !important;
-  border-color: #3a7ac0 !important;
-}
-
-.remaining-results {
-  animation: fadeUp 0.3s ease;
-}
+.refine-section { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
+.refine-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+.show-rest-chip { background: var(--user-bubble) !important; color: white !important; border-color: var(--user-bubble) !important; font-weight: 700 !important; }
+.show-rest-chip:hover, .show-rest-chip:active { background: #3a7ac0 !important; border-color: #3a7ac0 !important; }
+.remaining-results { animation: fadeUp 0.3s ease; }
 
 /* ── Input Area ── */
 .input-area {
-  padding: 10px 12px;
-  padding-bottom: max(10px, env(safe-area-inset-bottom));
-  background: var(--chat-bg);
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  flex-shrink: 0;
-  position: relative;
+  padding: 10px 12px; padding-bottom: max(10px, env(safe-area-inset-bottom));
+  background: var(--chat-bg); border-top: 1px solid var(--border);
+  display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0; position: relative;
 }
+.input-area textarea { flex: 1; border: 1.5px solid var(--border); border-radius: 20px; padding: 10px 16px; font-size: 15px; font-family: inherit; resize: none; outline: none; max-height: 100px; line-height: 1.4; background: var(--bg); transition: border-color 0.2s; overflow-y: auto; }
+.input-area textarea:focus { border-color: var(--user-bubble); }
+.send-btn { width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--user-bubble); color: white; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s, transform 0.1s; }
+.send-btn:active { transform: scale(0.92); background: #3a7ac0; }
 
-.input-area textarea {
-  flex: 1;
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  padding: 10px 16px;
-  font-size: 15px;
-  font-family: inherit;
-  resize: none;
-  outline: none;
-  max-height: 100px;
-  line-height: 1.4;
-  background: var(--bg);
-  transition: border-color 0.2s;
-  overflow-y: auto;
-}
-
-.input-area textarea:focus {
-  border-color: var(--user-bubble);
-}
-
-.send-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: none;
-  background: var(--user-bubble);
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.2s, transform 0.1s;
-}
-
-.send-btn:active {
-  transform: scale(0.92);
-  background: #3a7ac0;
-}
-
-/* ── Scrollbar ── */
 .chat-area::-webkit-scrollbar { width: 4px; }
 .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* ── Welcome ── */
-.welcome-msg {
-  text-align: center;
-  padding: 20px 10px;
-}
+/* ── Welcome & Typing ── */
+.welcome-msg { text-align: center; padding: 20px 10px; }
+.welcome-msg h2 { font-size: 18px; color: var(--accent); margin-bottom: 6px; }
+.welcome-msg p { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-.welcome-msg h2 {
-  font-size: 18px;
-  color: var(--accent);
-  margin-bottom: 6px;
-}
-
-.welcome-msg p {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* ── Typing indicator ── */
-.typing .dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--muted);
-  border-radius: 50%;
-  margin: 0 2px;
-  animation: blink 1.2s infinite;
-}
+.typing .dot { display: inline-block; width: 6px; height: 6px; background: var(--muted); border-radius: 50%; margin: 0 2px; animation: blink 1.2s infinite; }
 .typing .dot:nth-child(2) { animation-delay: 0.2s; }
 .typing .dot:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes blink {
-  0%, 60%, 100% { opacity: 0.3; }
-  30% { opacity: 1; }
-}
+@keyframes blink { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
 
 /* ── Hamburger Menu ── */
-.hamburger-btn {
-  background: none;
-  border: none;
-  color: var(--header-text);
-  font-size: 22px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  flex-shrink: 0;
-  transition: background 0.15s;
-}
-.hamburger-btn:hover, .hamburger-btn:active {
-  background: rgba(255,255,255,0.15);
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  left: 12px;
-  top: 56px;
-  background: #fff;
-  min-width: 200px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  z-index: 2000;
-  border-radius: 8px;
-  overflow: hidden;
-}
+.hamburger-btn { background: none; border: none; color: var(--header-text); font-size: 22px; cursor: pointer; padding: 4px 8px; border-radius: 6px; flex-shrink: 0; transition: background 0.15s; }
+.hamburger-btn:hover, .hamburger-btn:active { background: rgba(255,255,255,0.15); }
+.dropdown-content { display: none; position: absolute; left: 12px; top: 56px; background: #fff; min-width: 200px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); z-index: 2000; border-radius: 8px; overflow: hidden; }
 .dropdown-content.show { display: block; }
-.dropdown-content a {
-  color: #333;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  font-size: 14px;
-  border-bottom: 1px solid #f0f0f0;
-}
-.dropdown-content a:last-child { border-bottom: none; }
+.dropdown-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
 .dropdown-content a:hover { background: #f5f5f5; }
 
 /* ── Modal ── */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 3000;
-  left: 0; top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-}
+.modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 16px; }
 .modal.show { display: flex; }
-.modal-content {
-  background: #fff;
-  padding: 20px 22px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
-}
-.modal-content h2 {
-  margin: 0 0 12px;
-  font-size: 18px;
-  color: var(--header-bg);
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
-}
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #aaa;
-  cursor: pointer;
-  background: none;
-  border: none;
-  line-height: 1;
-}
+.modal-content { background: #fff; padding: 20px 22px; border-radius: 12px; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 8px 30px rgba(0,0,0,0.3); font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; }
+.modal-content h2 { margin: 0 0 12px; font-size: 18px; color: var(--header-bg); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+.modal-close { position: absolute; top: 10px; right: 14px; font-size: 24px; font-weight: bold; color: #aaa; cursor: pointer; background: none; border: none; line-height: 1; }
 .modal-close:hover { color: #333; }
 .modal-body { font-size: 14px; line-height: 1.7; color: #444; }
 
 /* ── Autocomplete ── */
-#suggest-box {
-  display: none;
-  position: absolute;
-  bottom: 100%;
-  left: 16px;
-  right: 16px;
-  max-height: 220px;
-  overflow-y: auto;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px 10px 0 0;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
-  z-index: 100;
-  margin-bottom: -1px;
-}
-.suggest-item {
-  padding: 10px 14px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  border-bottom: 1px solid #f3f3f3;
-  font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
-}
+#suggest-box { display: none; position: absolute; bottom: 100%; left: 16px; right: 16px; max-height: 220px; overflow-y: auto; background: #fff; border: 1px solid #ddd; border-radius: 10px 10px 0 0; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); z-index: 100; margin-bottom: -1px; }
+.suggest-item { padding: 10px 14px; font-size: 14px; color: #333; cursor: pointer; border-bottom: 1px solid #f3f3f3; font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif; }
 .suggest-item:last-child { border-bottom: none; }
-.suggest-item:hover, .suggest-item.active {
-  background: var(--accent-light);
-  color: var(--accent);
-}
+.suggest-item:hover, .suggest-item.active { background: var(--accent-light); color: var(--accent); }
 .suggest-item strong { color: var(--accent); }
 
 /* ── Category Color Tags ── */
 .result-category { color: #fff; border: none; }
-.cat-集金         { background: #c0392b; }
-.cat-活動費       { background: #a93226; }
-.cat-事務         { background: #884ea0; }
-.cat-役員         { background: #6c3483; }
-.cat-組織         { background: #5b2c6f; }
-.cat-情報共有     { background: #2471a3; }
-.cat-配車         { background: #1f6aa5; }
-.cat-配車調整     { background: #1a5490; }
-.cat-駐車場       { background: #34495e; }
-.cat-遠征         { background: #117864; }
-.cat-手配         { background: #148f77; }
-.cat-備品         { background: #0e6655; }
-.cat-マナー       { background: #b7950b; }
-.cat-トラブル     { background: #ba4a00; }
-.cat-健康         { background: #c0392b; }
-.cat-飲食         { background: #ca6f1e; }
-.cat-お弁当       { background: #dc7633; }
-.cat-親睦会       { background: #af601a; }
-.cat-イベント     { background: #d68910; }
-.cat-慶弔         { background: #7d6608; }
-.cat-先生         { background: #273746; }
-.cat-寄付         { background: #6e2c00; }
-.cat-default      { background: var(--muted); }
+.cat-集金 { background: #c0392b; } .cat-活動費 { background: #a93226; } .cat-事務 { background: #884ea0; } .cat-役員 { background: #6c3483; } .cat-組織 { background: #5b2c6f; } .cat-情報共有 { background: #2471a3; } .cat-配車 { background: #1f6aa5; } .cat-配車調整 { background: #1a5490; } .cat-駐車場 { background: #34495e; } .cat-遠征 { background: #117864; } .cat-手配 { background: #148f77; } .cat-備品 { background: #0e6655; } .cat-マナー { background: #b7950b; } .cat-トラブル { background: #ba4a00; } .cat-健康 { background: #c0392b; } .cat-飲食 { background: #ca6f1e; } .cat-お弁当 { background: #dc7633; } .cat-親睦会 { background: #af601a; } .cat-イベント { background: #d68910; } .cat-慶弔 { background: #7d6608; } .cat-先生 { background: #273746; } .cat-寄付 { background: #6e2c00; } .cat-default { background: var(--muted); }
 </style>
 </head>
 <body>
@@ -579,29 +233,51 @@ body {
     <button class="modal-close" data-close>&times;</button>
     <h2>🧮 集金計算＆LINE生成</h2>
     <div class="modal-body">
-      <div style="background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
-        <h3 style="font-size: 14px; color: var(--header-bg); margin-bottom: 8px;">🍱 お弁当代計算</h3>
-        <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center; margin-bottom: 6px;">
-          お弁当総額 (円): <input type="number" id="calc-bento-total" style="width: 120px; padding: 6px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 14500">
+      
+<div style="background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h3 style="font-size: 14px; color: var(--header-bg); margin: 0;">🍱 お弁当代計算</h3>
+          <select id="calc-bento-fund" style="padding: 4px 6px; border-radius:4px; border:1px solid #ccc; font-weight:bold; color:var(--accent); font-size:12px;">
+            <option value="collect">各自徴収</option>
+            <option value="buhi">全額部費から支出</option>
+          </select>
+        </div>
+        <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center; margin-bottom: 8px;">
+          弁当総額 (円): <input type="number" id="calc-bento-total" style="width: 100px; padding: 4px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 21500">
         </label>
         <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center;">
-          支払う人数 (人): <input type="number" id="calc-bento-people" style="width: 120px; padding: 6px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 20">
+          割勘対象人数 (人): <input type="number" id="calc-bento-pay-num" style="width: 100px; padding: 4px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 21">
         </label>
       </div>
 
       <div style="background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #eee;">
-        <h3 style="font-size: 14px; color: var(--header-bg); margin-bottom: 8px;">🚗 高速代・遠征費計算</h3>
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h3 style="font-size: 14px; color: var(--header-bg); margin: 0;">🚗 高速代・遠征費計算</h3>
+          <select id="calc-drive-fund" style="padding: 4px 6px; border-radius:4px; border:1px solid #ccc; font-weight:bold; color:var(--accent); font-size:12px;">
+            <option value="collect">各自徴収</option>
+            <option value="buhi">全額部費から支出</option>
+          </select>
+        </div>
         <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center; margin-bottom: 6px;">
-          経費総額 (円): <input type="number" id="calc-drive-total" style="width: 120px; padding: 6px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 8320">
+          往路合計金額 (円): <input type="number" id="calc-drive-way1" style="width: 100px; padding: 4px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 1250">
         </label>
-        <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center;">
-          対象家庭数 (世帯): <input type="number" id="calc-drive-people" style="width: 120px; padding: 6px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 15">
+        <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center; margin-bottom: 6px;">
+          復路合計金額 (円): <input type="number" id="calc-drive-way2" style="width: 100px; padding: 4px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 1250">
         </label>
+        <label style="display:flex; justify-content: space-between; font-size: 13px; align-items: center; margin-bottom: 10px;">
+          割勘対象人数 (人): <input type="number" id="calc-drive-people" style="width: 100px; padding: 4px; border:1px solid #ccc; border-radius:4px;" placeholder="例: 5">
+        </label>
+        <div style="font-size: 12px; display: flex; justify-content: flex-end; align-items: center; border-top: 1px dashed #ddd; padding-top: 8px;">
+          <a href="https://search.w-nexco.co.jp/" target="_blank" style="color: var(--user-bubble); text-decoration: none; font-weight: bold;">🔗NEXCO検索</a>
+        </div>
       </div>
 
-      <button id="btn-generate-line" style="background: var(--accent); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 12px; font-size: 14px; transition: background 0.2s;">計算してLINE文面を作成 💬</button>
+      <div style="display:flex; gap:8px; margin-bottom: 12px;">
+        <button id="btn-clear-calc" style="background: #e0e0e0; color: #333; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 30%; font-weight: bold; font-size: 14px; transition: background 0.2s;">クリア 🔄</button>
+        <button id="btn-generate-line" style="background: var(--accent); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 70%; font-weight: bold; font-size: 14px; transition: background 0.2s;">計算＆LINE作成 💬</button>
+      </div>
 
-      <textarea id="line-output" rows="10" style="width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--border); border-radius: 6px; resize: vertical; font-family: inherit; line-height:1.5;" placeholder="ここにLINEの案内文が生成されます。&#13;&#10;※端数は自動で10円単位に切り上げ計算します。"></textarea>
+      <textarea id="line-output" rows="12" style="width: 100%; padding: 12px; font-size: 13px; border: 1px solid var(--border); border-radius: 6px; resize: vertical; font-family: inherit; line-height:1.5;" placeholder="ここにLINEの案内文が生成されます。&#13;&#10;※「徴収額」と「理論値」をわかりやすく併記します。"></textarea>
       
       <button id="btn-copy-line" style="background: var(--user-bubble); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 8px; font-size: 14px; transition: background 0.2s;">文面をコピー</button>
     </div>
@@ -617,16 +293,11 @@ body {
       <ul>
         <li>調べたいキーワードを入力して送信ボタン（➤）を押してね。</li>
         <li>キーワードの間にスペースを入れると絞り込み検索（AND）ができるよ。</li>
-        <li>入力中に候補が自動で出てくるので、選ぶこともできるよ。</li>
-      </ul>
-      <p><strong>【新機能：高度な検索】</strong></p>
-      <ul>
-        <li>かすりヒット機能：ピッタリの回答がない場合でも、関連しそうなFAQを自動で「もしかして関連？」として提示するようになったよ！</li>
-        <li>共起検索：よく一緒に使われる言葉を裏側で学習して、より的確にヒットするようになったよ。</li>
       </ul>
       <p><strong>【便利機能】</strong></p>
       <ul>
-        <li>右上の「🧮 計算・LINE生成」ボタンから、集金計算と案内文の自動作成ができるよ。</li>
+        <li>右上の「🧮 計算・LINE生成」ボタンから、お弁当代や高速代のスマート計算と、案内文の自動作成ができるよ。</li>
+        <li>「全額部費」と「各自徴収」をワンタッチで切り替え可能です。</li>
       </ul>
     </div>
   </div>
@@ -638,16 +309,10 @@ body {
     <h2>📜 リリースノート</h2>
     <div class="modal-body">
       <div style="margin-bottom: 14px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
-        <span style="font-weight: bold; color: var(--header-bg); font-size: 13px;">2026.4.29 (v3.0.0)</span>
+        <span style="font-weight: bold; color: var(--header-bg); font-size: 13px;">2026.4.29 (v3.2.0)</span>
         <ul style="margin: 4px 0 0; padding-left: 20px; font-size: 13px;">
-          <li>検索エンジンを大幅刷新（PMI共起辞書、かすりヒット機能搭載）</li>
-          <li>集金計算＆LINE案内文ジェネレーターを追加</li>
-        </ul>
-      </div>
-      <div style="margin-bottom: 14px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
-        <span style="font-weight: bold; color: var(--header-bg); font-size: 13px;">2026.4.19 (v2.1.0)</span>
-        <ul style="margin: 4px 0 0; padding-left: 20px; font-size: 13px;">
-          <li>QAの重複を統合・整理</li>
+          <li>LINE文面のフォーマットを改善（合計金額、理論値、徴収額を明記）。</li>
+          <li>お弁当・高速代それぞれに「全額部費」と「各自徴収」のマスター切替ボタンを追加。</li>
         </ul>
       </div>
     </div>
@@ -661,20 +326,15 @@ body {
     <div style="margin-top:16px;">
       <div style="font-size:40px; margin-bottom:8px;">🏐</div>
       <h3 style="color:var(--header-bg); margin:4px 0;">バレー部 保護者会FAQ</h3>
-      <p style="font-size:18px; font-weight:bold; color:#333;">Version 3.0.0</p>
+      <p style="font-size:18px; font-weight:bold; color:#333;">Version 3.2.0</p>
       <p style="font-size:12px; color:#888;">最終更新日: 2026年4月29日</p>
-      <p style="font-size:12px; color:#999; margin-top:20px; line-height:1.7;">
-        引継ぎ用FAQチャットボット<br>
-        AI検索エンジン＋集金計算ツール搭載<br>
-        1ファイル完結型
-      </p>
     </div>
   </div>
 </div>
 
 <script>
 // ══════════════════════════════════════
-//  FAQ Data
+//  FAQ Data (inline)
 // ══════════════════════════════════════
 const FAQ_DATA = [
   {c:"集金",q:"遠征等の集金で発生する少額の端数はどう処理するか？",a:"基本的には10円単位等できり上げて集金し、余った分を部費に入れる運用だが、金額や状況に応じて都度役員間で確認が必要。"},
@@ -1028,7 +688,7 @@ function ngrams(text, n) {
 }
 
 // ══════════════════════════════════════
-//  PMI Co-occurrence Map (共起辞書)
+//  PMI Co-occurrence Map
 // ══════════════════════════════════════
 let cooccurMap = null;
 function buildCooccurMap() {
@@ -1161,7 +821,7 @@ function search(query) {
       if (tn.length === 0 || (tn.length === 1 && /^[\u3041-\u3096]$/.test(tn))) return;
       
       let weight = idfWeight(df[token] || 0, totalDocs);
-      if (cooccurOnly.has(token)) weight *= 0.4; // 共起語は弱重み
+      if (cooccurOnly.has(token)) weight *= 0.4;
 
       if (cNorm.includes(tn)) score += weight * 1.5;
       if (qNorm.includes(tn)) score += weight * 3.0;
@@ -1171,7 +831,6 @@ function search(query) {
     return { item, score, idx };
   });
 
-  // Frequency boost
   const maxFreq = Math.max(1, ...Object.values(hitFreq), 1);
   scored.forEach(s => {
     const freq = hitFreq[s.idx] || 0;
@@ -1187,7 +846,6 @@ function search(query) {
     const cutoff = topScore * 0.3;
     mainResults = hits.filter(h => h.score >= cutoff);
     
-    // かすりモード (Fuzzy Mode)
     if (mainResults.length < 5) {
       const fuzzyCutoff = topScore * 0.1;
       relatedResults = hits.filter(h => h.score >= fuzzyCutoff && h.score < cutoff).slice(0, 5);
@@ -1206,7 +864,6 @@ function search(query) {
 const chatArea = document.getElementById('chatArea');
 const userInput = document.getElementById('userInput');
 
-// Build category chips
 const categories = [...new Set(FAQ_DATA.map(d => d.c))];
 const chipsContainer = document.getElementById('categoryChips');
 categories.forEach(cat => {
@@ -1285,19 +942,8 @@ function handleSend() {
   }, 400 + Math.random() * 300);
 }
 
-// ══════════════════════════════════════
-//  Display & Facets
-// ══════════════════════════════════════
-const FACET_STOP = new Set([
-  'こと','もの','ため','よう','など','それ','これ','あれ','どれ','この','その','あの',
-  'する','した','される','なる','ある','ない','いる','いう','いる','します','します',
-  'です','ます','場合','必要','可能','対象','該当','以下','以上','未満','以内','以外',
-  '確認','入力','修正','適用','注意','参照','情報','内容','方法','手続','届出',
-  'について','として','において','により','によって','または','および','ただし','なお',
-  'はい','いいえ','そう','うん','ええ','実施','使用','利用','対応','準備'
-]);
-
 function extractFacetTerms(results, excludeCatTerms, excludeWordTerms) {
+  const FACET_STOP = new Set(['こと','もの','ため','よう','など','それ','これ','あれ','どれ','この','その','あの','する','した','される','なる','ある','ない','いる','いう','いる','します','します','です','ます','場合','必要','可能','対象','該当','以下','以上','未満','以内','以外','確認','入力','修正','適用','注意','参照','情報','内容','方法','手続','届出','について','として','において','により','によって','または','および','ただし','なお','はい','いいえ','そう','うん','ええ','実施','使用','利用','対応','準備']);
   const catCounts = {};
   const wordCounts = {};
   const excludeCatNorms = new Set((excludeCatTerms || []).map(normalizeText));
@@ -1373,7 +1019,6 @@ function displayResults(mainResults, relatedResults, query, activeCatFilter, act
     html += `</div></div>`;
   }
 
-  // Related (Fuzzy) Results display
   if (relatedResults && relatedResults.length > 0 && mainResults.length > 0) {
     html += `<div style="margin-top:15px; font-size:12px; color:var(--muted); border-top:1px dashed var(--border); padding-top:10px;">`;
     html += `🤔 <strong>もしかして関連？</strong>（スコア低めの候補 ${relatedResults.length} 件）</div>`;
@@ -1404,7 +1049,6 @@ function displayResults(mainResults, relatedResults, query, activeCatFilter, act
         addMessage('user', `＋「${term}」で絞り込み`);
         const newCatFilter = type === 'cat' ? term : activeCatFilter;
         const newWordFilter = type === 'word' ? term : activeWordFilter;
-        // 絞り込み時はrelatedは表示しない
         displayResults(filtered, [], lastQuery, newCatFilter, newWordFilter);
       };
     });
@@ -1460,7 +1104,6 @@ const suggestPool = (() => {
       .map(s => s.trim()).filter(s => s.length >= 2 && s.length <= 6);
     chunks.forEach(c => {
       if (/^[0-9０-９,，\-ー〜~]+$/.test(c)) return;
-      if (FACET_STOP.has(c)) return;
       pool.add(c);
     });
   });
@@ -1567,44 +1210,105 @@ const suggestPool = (() => {
     if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show'));
   });
 
-  // 計算＆LINE文面生成ロジック
-  function ceilTo10(num) { return Math.ceil(num / 10) * 10; }
+  // 数値フォーマット用
+  function formatCurrency(num) {
+    return Number(num).toLocaleString();
+  }
 
-  document.getElementById('btn-generate-line').addEventListener('click', () => {
-    const bentoTotal = Number(document.getElementById('calc-bento-total').value) || 0;
-    const bentoPeople = Number(document.getElementById('calc-bento-people').value) || 0;
-    let bentoPerPerson = 0, bentoExtra = 0;
+  // スマート切り上げ計算ロジック
+  function ceilSmart(exact) {
+    if (exact <= 0) return 0;
+    const ceil50 = Math.ceil(exact / 50) * 50;
+    if (ceil50 - exact >= 30) {
+      return Math.ceil(exact / 10) * 10;
+    }
+    return ceil50;
+  }
+
+document.getElementById('btn-generate-line').addEventListener('click', () => {
     
-    if (bentoTotal > 0 && bentoPeople > 0) {
-      bentoPerPerson = ceilTo10(bentoTotal / bentoPeople);
-      bentoExtra = (bentoPerPerson * bentoPeople) - bentoTotal;
+    // --- お弁当代 ---
+    const bFund = document.getElementById('calc-bento-fund').value;
+    const bTotal = Number(document.getElementById('calc-bento-total').value) || 0;
+    const bPayNum = Number(document.getElementById('calc-bento-pay-num').value) || 0;
+
+    let bPerPerson = 0;
+    if (bTotal > 0 && bPayNum > 0 && bFund !== 'buhi') {
+      const exact = bTotal / bPayNum;
+      bPerPerson = ceilSmart(exact);
     }
 
-    const driveTotal = Number(document.getElementById('calc-drive-total').value) || 0;
-    const drivePeople = Number(document.getElementById('calc-drive-people').value) || 0;
-    let drivePerFamily = 0, driveExtra = 0;
+    // --- 高速代 ---
+    const dFund = document.getElementById('calc-drive-fund').value;
+    const w1 = Number(document.getElementById('calc-drive-way1').value) || 0;
+    const w2 = Number(document.getElementById('calc-drive-way2').value) || 0;
+    const dDivNum = Number(document.getElementById('calc-drive-people').value) || 0;
     
-    if (driveTotal > 0 && drivePeople > 0) {
-      drivePerFamily = ceilTo10(driveTotal / drivePeople);
-      driveExtra = (drivePerFamily * drivePeople) - driveTotal;
+    const dTotal = w1 + w2;
+
+    let dPerPerson = 0;
+    if (dTotal > 0 && dDivNum > 0 && dFund !== 'buhi') {
+      const exact = dTotal / dDivNum;
+      dPerPerson = ceilSmart(exact);
     }
 
-    let totalCollect = bentoPerPerson + drivePerFamily;
+    // --- LINE文面生成 ---
     let lines = ["お疲れ様です！〇〇日の集金についてお知らせします。🏐\n"];
     
-    if (bentoPerPerson > 0) {
-      lines.push(`🍱 お弁当代: 1人あたり ${bentoPerPerson}円`);
-      if(bentoExtra > 0) lines.push(`　(※端数 ${bentoExtra}円は部費へ計上します)`);
+    // お弁当の出力
+    if (bTotal > 0) {
+      lines.push(`【🍱 お弁当代】`);
+      if (bFund === 'buhi') {
+        lines.push(`今回は全額部費から支出します（個人負担はありません）。`);
+      } else {
+        lines.push(`・合計金額: ${formatCurrency(bTotal)}円`);
+        if (bPayNum > 0) {
+          lines.push(`・割勘対象人数: ${bPayNum}人`);
+          const exact = bTotal / bPayNum;
+          lines.push(`・1人あたり理論値: ${exact.toFixed(1)}円`);
+          lines.push(`▶ 1人あたり徴収金額: ${formatCurrency(bPerPerson)}円`);
+          lines.push(`　※端数は部費に計上します。`);
+        }
+      }
+      lines.push("");
     }
-    if (drivePerFamily > 0) {
-      lines.push(`🚗 高速・遠征費: 1家庭あたり ${drivePerFamily}円`);
-      if(driveExtra > 0) lines.push(`　(※端数 ${driveExtra}円は部費へ計上します)`);
+
+    // 高速代の出力
+    if (dTotal > 0) {
+      lines.push(`【🚗 高速代・遠征費】`);
+      if (dFund === 'buhi') {
+        lines.push(`今回は全額部費から支出します（個人負担はありません）。`);
+      } else {
+        lines.push(`・合計金額: ${formatCurrency(dTotal)}円 (往路${formatCurrency(w1)}円 / 復路${formatCurrency(w2)}円)`);
+        if (dDivNum > 0) {
+          lines.push(`・割勘対象人数: ${dDivNum}人`);
+          const exact = dTotal / dDivNum;
+          lines.push(`・1人あたり理論値: ${exact.toFixed(1)}円`);
+          lines.push(`▶ 1人あたり徴収金額: ${formatCurrency(dPerPerson)}円`);
+          lines.push(`　※端数は部費に計上します。`);
+        }
+      }
+      lines.push("");
     }
     
-    lines.push(`\n💰 【合計集金額】: ${totalCollect}円`);
-    lines.push(`\nお釣りのないように封筒に「名前・金額・内訳」を書いて、次回の練習日にお持ちください。\nよろしくお願いします！🙇‍♀️`);
+    // 合計の出力
+    const totalCollect = bPerPerson + dPerPerson;
+    if(totalCollect > 0) {
+      lines.push(`💰 【今回のお支払い合計】: ${formatCurrency(totalCollect)}円 / 1人`);
+      lines.push(`お釣りのないように封筒に「名前・金額・内訳」を書いて、次回の練習日にお持ちください。\nよろしくお願いします！🙇‍♀️`);
+    } else if ( (bTotal > 0 || dTotal > 0) && totalCollect === 0 ) {
+      lines.push(`※今回の個人手出し（集金）はありません。`);
+    }
 
     document.getElementById('line-output').value = lines.join('\n');
+  });
+
+  // クリアボタンの処理
+  document.getElementById('btn-clear-calc').addEventListener('click', () => {
+    document.querySelectorAll('#calcModal input[type="number"]').forEach(input => input.value = '');
+    document.getElementById('calc-bento-fund').value = 'collect';
+    document.getElementById('calc-drive-fund').value = 'collect';
+    document.getElementById('line-output').value = '';
   });
 
   document.getElementById('btn-copy-line').addEventListener('click', () => {

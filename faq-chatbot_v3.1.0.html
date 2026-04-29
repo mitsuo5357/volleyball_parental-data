@@ -206,6 +206,7 @@ body {
     <p>質問やキーワードを入力してね</p>
   </div>
   <button class="header-btn" id="menuCalc">🧮 計算・LINE生成</button>
+  <button class="header-btn" id="menuLog">📊 ログ</button>
 </div>
 
 <div class="chat-area" id="chatArea">
@@ -308,6 +309,14 @@ body {
     <button class="modal-close" data-close>&times;</button>
     <h2>📜 リリースノート</h2>
     <div class="modal-body">
+<div style="margin-bottom: 14px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
+        <span style="font-weight: bold; color: var(--header-bg); font-size: 13px;">2026.4.30 (v3.3.0)</span>
+        <ul style="margin: 4px 0 0; padding-left: 20px; font-size: 13px;">
+          <li>検索ログ機能を追加（ヘッダー → 📊 ログ）。検索回数・上位キーワード集計、CSV出力、リセットに対応。</li>
+          <li>検索結果にキーワードハイライト機能を追加。</li>
+          <li>検索結果に👍👎フィードバックボタンを追加（評価は端末内に保存）。</li>
+        </ul>
+      </div>
       <div style="margin-bottom: 14px; border-bottom: 1px dashed #ddd; padding-bottom: 10px;">
         <span style="font-weight: bold; color: var(--header-bg); font-size: 13px;">2026.4.29 (v3.2.0)</span>
         <ul style="margin: 4px 0 0; padding-left: 20px; font-size: 13px;">
@@ -318,7 +327,35 @@ body {
     </div>
   </div>
 </div>
-
+<!-- 検索ログモーダル（v3.3.0追加） -->
+<div class="modal" id="logModal">
+  <div class="modal-content" style="max-width:520px;">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>📊 検索ログ</h2>
+    <div class="modal-body">
+      <p>検索された質問の履歴を集計しているよ。次の保護者会長への引き継ぎ時に「よく検索される質問」が分かると便利。</p>
+      <div class="log-stats">
+        <div class="log-stats-row">
+          <span class="log-stats-label">総検索件数</span>
+          <span class="log-stats-value" id="log-total">0 件</span>
+        </div>
+        <div class="log-stats-row">
+          <span class="log-stats-label">記録開始日</span>
+          <span class="log-stats-value" id="log-since">-</span>
+        </div>
+      </div>
+      <div id="log-top-list" style="font-size:13px; line-height:1.7; margin-top:10px;"></div>
+      <div class="log-actions">
+        <button class="log-btn primary" onclick="exportLogCSV()">📥 CSV出力</button>
+        <button class="log-btn danger" onclick="clearLog()">🗑️ ログをリセット</button>
+      </div>
+      <p style="font-size:11px; color:#999; margin-top:14px;">
+        ※ ログは利用端末（ブラウザ）内にのみ保存され、外部送信はされないよ。<br>
+        ※ ブラウザのキャッシュをクリアすると消えるよ。
+      </p>
+    </div>
+  </div>
+</div>
 <div class="modal" id="versionModal">
   <div class="modal-content" style="text-align:center;">
     <button class="modal-close" data-close>&times;</button>
@@ -938,6 +975,7 @@ function handleSend() {
     }
     
     recordHits(results.main.slice(0, 10));
+    recordSearchLog(query, results.main.length + results.related.length);  // ← この1行を追加
     displayResults(results.main, results.related, query, null, null);
   }, 400 + Math.random() * 300);
 }
@@ -1052,7 +1090,20 @@ function displayResults(mainResults, relatedResults, query, activeCatFilter, act
         displayResults(filtered, [], lastQuery, newCatFilter, newWordFilter);
       };
     });
-    lastMsg.querySelectorAll('.show-rest-chip').forEach(btn => {
+   lastMsg.querySelectorAll('.fb-btn').forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.dataset.idx, 10);
+        const type = btn.dataset.fb;
+        toggleFeedback(idx, type);
+        // 同一カードの全ボタン状態を更新
+        lastMsg.querySelectorAll(`.fb-btn[data-idx="${idx}"]`).forEach(b => {
+          b.classList.remove('active', 'fb-up', 'fb-down');
+          const state = getFeedbackState(idx);
+          if (state === 'up' && b.dataset.fb === 'up') b.classList.add('active', 'fb-up');
+          if (state === 'down' && b.dataset.fb === 'down') b.classList.add('active', 'fb-down');
+        });
+      };
+    }); lastMsg.querySelectorAll('.show-rest-chip').forEach(btn => {
       btn.onclick = () => {
         const target = document.getElementById(btn.dataset.remainId);
         if (target) { target.style.display = 'block'; btn.style.display = 'none'; }
@@ -1066,16 +1117,23 @@ function renderResultCard(r, isFuzzy = false) {
   const catSafe = (r.item.c || 'default').replace(/[^\w\u3040-\u30FF\u4E00-\u9FFF]/g, '');
   const catClass = `cat-${catSafe}`;
   const fuzzyClass = isFuzzy ? ' fuzzy' : '';
-  
+  const fbState = getFeedbackState(r.idx);
+  const upActive = fbState === 'up' ? ' active fb-up' : '';
+  const downActive = fbState === 'down' ? ' active fb-down' : '';
+
   return `
-    <div class="result-card${fuzzyClass}">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;">
+    <div class="result-card${fuzzyClass}" data-idx="${r.idx}">
+      <div class="feedback-btns">
+        <button class="fb-btn fb-up${upActive}" data-fb="up" data-idx="${r.idx}" title="役に立った">👍</button>
+        <button class="fb-btn fb-down${downActive}" data-fb="down" data-idx="${r.idx}" title="ちょっと違う">👎</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;padding-right:56px;">
         <span class="result-category ${catClass}">${escapeHtml(r.item.c)}</span>
         <span class="score-badge" style="font-size:11px;font-weight:700;color:${barColor};">${r.pct}%</span>
         <div class="score-bar"><div class="score-fill" style="width:${r.pct}%;background:${barColor};"></div></div>
       </div>
-      <div class="result-q">Q. ${escapeHtml(r.item.q)}</div>
-      <div class="result-a">A. ${escapeHtml(r.item.a)}</div>
+      <div class="result-q">Q. ${highlightKeywords(r.item.q, lastQuery)}</div>
+      <div class="result-a">A. ${highlightKeywords(r.item.a, lastQuery)}</div>
     </div>`;
 }
 
@@ -1321,6 +1379,138 @@ document.getElementById('btn-generate-line').addEventListener('click', () => {
     });
   });
 })();
+// ══════════════════════════════════════
+//  v3.3.0: ハイライト
+// ══════════════════════════════════════
+function highlightKeywords(text, query) {
+  if (!text) return '';
+  const escaped = escapeHtml(text);
+  if (!query) return escaped;
+  // 検索エンジンと同じトークン展開を使う（applyVariants/expandWithSynonymsがあれば利用）
+  let tokens = [];
+  try {
+    tokens = tokenize(query);
+    if (typeof applyVariants === 'function') tokens = applyVariants(tokens);
+    if (typeof expandWithSynonyms === 'function') tokens = expandWithSynonyms(tokens);
+  } catch(e) {
+    tokens = query.split(/\s+/);
+  }
+  // 重複除去・短すぎるトークン除外・長い順ソート（部分被り防止）
+  const uniq = [...new Set(tokens)]
+    .filter(t => t && t.length >= 2)
+    .sort((a, b) => b.length - a.length);
+  if (uniq.length === 0) return escaped;
+  // 正規表現エスケープ
+  const escRe = uniq.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  // textはエスケープ済みなので、エスケープ済みに対して照合
+  let result = escaped;
+  escRe.forEach(re => {
+    const r = new RegExp(re, 'gi');
+    result = result.replace(r, m => `<mark class="kw-highlight">${m}</mark>`);
+  });
+  return result;
+}
+
+// ══════════════════════════════════════
+//  v3.3.0: フィードバック（飾り）
+// ══════════════════════════════════════
+const LS_FB = 'faq_feedback_v1';
+let fbStore = {};
+try { fbStore = JSON.parse(localStorage.getItem(LS_FB) || '{}'); } catch(e) {}
+
+function getFeedbackState(idx) { return fbStore[idx] || null; }
+function toggleFeedback(idx, type) {
+  // 同じボタン押し直しで取り消し、別ボタンに切替
+  if (fbStore[idx] === type) delete fbStore[idx];
+  else fbStore[idx] = type;
+  try { localStorage.setItem(LS_FB, JSON.stringify(fbStore)); } catch(e) {}
+}
+
+// ══════════════════════════════════════
+//  v3.3.0: 検索ログ
+// ══════════════════════════════════════
+const LS_LOG = 'faq_search_log_v1';
+const LS_LOG_SINCE = 'faq_search_log_since_v1';
+const LOG_MAX = 5000;
+
+function loadSearchLog() {
+  try { return JSON.parse(localStorage.getItem(LS_LOG) || '[]'); } catch(e) { return []; }
+}
+
+function recordSearchLog(query, hitCount) {
+  let log = loadSearchLog();
+  log.push({ t: new Date().toISOString(), q: query, n: hitCount });
+  if (log.length > LOG_MAX) log = log.slice(-LOG_MAX);
+  try {
+    localStorage.setItem(LS_LOG, JSON.stringify(log));
+    if (!localStorage.getItem(LS_LOG_SINCE)) {
+      localStorage.setItem(LS_LOG_SINCE, new Date().toISOString());
+    }
+  } catch(e) {}
+}
+
+function refreshLogModal() {
+  const log = loadSearchLog();
+  document.getElementById('log-total').textContent = `${log.length} 件`;
+  const since = localStorage.getItem(LS_LOG_SINCE);
+  if (since) {
+    const d = new Date(since);
+    document.getElementById('log-since').textContent =
+      `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+  } else {
+    document.getElementById('log-since').textContent = '-';
+  }
+  const counts = {};
+  log.forEach(e => { const q = (e.q || '').trim(); if (q) counts[q] = (counts[q] || 0) + 1; });
+  const top = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 10);
+  const list = document.getElementById('log-top-list');
+  if (top.length === 0) {
+    list.innerHTML = '<p style="color:#999;">まだ検索ログがありません。</p>';
+  } else {
+    list.innerHTML = '<p style="font-weight:bold; margin-bottom:6px;">よく検索されたキーワード（上位10）：</p>' +
+      '<ol style="padding-left:20px; margin:0;">' +
+      top.map(([q,c]) => `<li>${escapeHtml(q)} <span style="color:#999;">(${c}回)</span></li>`).join('') +
+      '</ol>';
+  }
+}
+
+function exportLogCSV() {
+  const log = loadSearchLog();
+  if (log.length === 0) { alert('ログがありません。'); return; }
+  const rows = [['日時(JST)', '検索キーワード', 'ヒット件数']];
+  log.forEach(e => {
+    const d = new Date(e.t);
+    const jst = new Date(d.getTime() + 9 * 3600 * 1000);
+    const ts = `${jst.getUTCFullYear()}-${String(jst.getUTCMonth()+1).padStart(2,'0')}-${String(jst.getUTCDate()).padStart(2,'0')} ${String(jst.getUTCHours()).padStart(2,'0')}:${String(jst.getUTCMinutes()).padStart(2,'0')}:${String(jst.getUTCSeconds()).padStart(2,'0')}`;
+    rows.push([ts, e.q || '', String(e.n != null ? e.n : '')]);
+  });
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const today = new Date();
+  a.download = `search_log_${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function clearLog() {
+  if (!confirm('検索ログを全て削除します。よろしいですか？')) return;
+  try {
+    localStorage.removeItem(LS_LOG);
+    localStorage.removeItem(LS_LOG_SINCE);
+  } catch(e) {}
+  refreshLogModal();
+}
+
+// ログメニューのイベントは IIFE 内で登録できないので、ここで追加
+document.getElementById('menuLog').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('logModal').classList.add('show');
+  refreshLogModal();
+});
+
 </script>
 </body>
 </html>
